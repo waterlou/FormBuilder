@@ -18,8 +18,6 @@ open class FormTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension // auto layout
     }
 
-    // MARK: - Table view data source
-
     override open func numberOfSections(in tableView: UITableView) -> Int {
         return form.numberOfSections
     }
@@ -36,17 +34,25 @@ open class FormTableViewController: UITableViewController {
         }
         let cell = rowView.cell(withIdentifier: key)
         cell.formRowViewProtocol.setup(form: form)  // setup control
+        form.modelToControl(keys: [key])
         return cell
     }
-    
+
     open override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return form.header(forSection: section)
+    }
+
+    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)    // deselect it
+        guard let rowView = form.rowView(row: indexPath.row, section: indexPath.section) else { fatalError("cannot get rowView") }
+        guard let key = rowView.key else { fatalError("key not set") }
+        if rowView.isSelectable {
+            form.signal(key: key, event: .buttonClicked)
+        }
     }
     
     open override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         guard let rowView = form.rowView(row: indexPath.row, section: indexPath.section) else { fatalError("cannot get rowView") }
         return rowView.isSelectable
     }
-    
-    
 }

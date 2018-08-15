@@ -10,7 +10,6 @@
 		4908E2922121566D0020A265 /* FormDataMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2912121566D0020A265 /* FormDataMap.swift */; };
 		4908E2962122629D0020A265 /* FormDataMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2952122629D0020A265 /* FormDataMappable.swift */; };
 		4908E298212266E90020A265 /* FormSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E297212266E90020A265 /* FormSubscription.swift */; };
-		4908E29A212268930020A265 /* BaseForm+UITextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E299212268930020A265 /* BaseForm+UITextFieldDelegate.swift */; };
 		4908E29D21228F150020A265 /* FormRowViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E29C21228F150020A265 /* FormRowViewOptions.swift */; };
 		4908E29F2123BA3B0020A265 /* FormBuilderBasicsStackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */; };
 		4908E2A12123C0220020A265 /* FormTransformProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2A02123C0220020A265 /* FormTransformProtocol.swift */; };
@@ -34,7 +33,6 @@
 		4908E2912121566D0020A265 /* FormDataMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataMap.swift; sourceTree = "<group>"; };
 		4908E2952122629D0020A265 /* FormDataMappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataMappable.swift; sourceTree = "<group>"; };
 		4908E297212266E90020A265 /* FormSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSubscription.swift; sourceTree = "<group>"; };
-		4908E299212268930020A265 /* BaseForm+UITextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseForm+UITextFieldDelegate.swift"; sourceTree = "<group>"; };
 		4908E29C21228F150020A265 /* FormRowViewOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowViewOptions.swift; sourceTree = "<group>"; };
 		4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormBuilderBasicsStackView.xib; sourceTree = "<group>"; };
 		4908E2A02123C0220020A265 /* FormTransformProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTransformProtocol.swift; sourceTree = "<group>"; };
@@ -67,21 +65,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4908E2902121564D0020A265 /* binding */ = {
+		4908E2902121564D0020A265 /* mapping */ = {
 			isa = PBXGroup;
 			children = (
 				4908E2912121566D0020A265 /* FormDataMap.swift */,
 				4908E2952122629D0020A265 /* FormDataMappable.swift */,
 			);
-			path = binding;
+			path = mapping;
 			sourceTree = "<group>";
 		};
-		4908E29B2122759F0020A265 /* utilities */ = {
+		4908E29B2122759F0020A265 /* views */ = {
 			isa = PBXGroup;
 			children = (
 				49B75B4C20FC8C63004A2A43 /* NavigationAccessoryView.swift */,
 			);
-			path = utilities;
+			path = views;
 			sourceTree = "<group>";
 		};
 		49230FC820F838E9001EE3B0 = {
@@ -104,15 +102,14 @@
 		49230FD420F838E9001EE3B0 /* FormBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				4908E29B2122759F0020A265 /* utilities */,
-				4908E2902121564D0020A265 /* binding */,
+				4908E29B2122759F0020A265 /* views */,
+				4908E2902121564D0020A265 /* mapping */,
 				4973012D20FDEE2D003F89C1 /* protocol */,
 				4973012420FDA508003F89C1 /* extensions */,
 				49230FD520F838E9001EE3B0 /* FormBuilder.h */,
 				49230FD620F838EA001EE3B0 /* Info.plist */,
 				4908E297212266E90020A265 /* FormSubscription.swift */,
 				4973012520FDA62A003F89C1 /* BaseForm.swift */,
-				4908E299212268930020A265 /* BaseForm+UITextFieldDelegate.swift */,
 				49230FFE20F83953001EE3B0 /* Form.swift */,
 				4908E29C21228F150020A265 /* FormRowViewOptions.swift */,
 				4923100020F8395D001EE3B0 /* FormRowView.swift */,
@@ -245,7 +242,6 @@
 				4923100720F83C5A001EE3B0 /* FormStackView.swift in Sources */,
 				4923100320F83980001EE3B0 /* FormRowTableViewCell.swift in Sources */,
 				49230FFF20F83953001EE3B0 /* Form.swift in Sources */,
-				4908E29A212268930020A265 /* BaseForm+UITextFieldDelegate.swift in Sources */,
 				4908E298212266E90020A265 /* FormSubscription.swift in Sources */,
 				4908E2962122629D0020A265 /* FormDataMappable.swift in Sources */,
 				4923100520F83C45001EE3B0 /* FormTableViewController.swift in Sources */,

@@ -14,16 +14,15 @@ public class FormDataMapping {
     public internal(set) var isKeyPresent = false
     public internal(set) var currentValue: Any?
     public internal(set) var currentKey: String?
-    public internal(set) var availableKeys: [String]?   // restrict to these keys
-
-    let form: BaseForm
     
     enum MappingType {
         case fromControl
         case toControl
     }
-    var mappingType: MappingType
-    
+    let form: BaseForm
+    let mappingType: MappingType
+    let availableKeys: [String]?   // restrict to these keys
+
     init(form: BaseForm, mappingType: MappingType, availableKeys: [String]? = nil) {
         self.form = form
         self.mappingType = mappingType
@@ -36,13 +35,11 @@ public class FormDataMapping {
     }
     
     private func `subscript`(key: String) -> FormDataMapping {
+        
         // save key and value associated to it
         currentKey = key
         
         if mappingType == .fromControl {
-            // check if a value exists for the current key
-            // do this pre-check for performance reasons
-            //let object = JSON[key]  // TODO: get object from form
             if let availableKeys = availableKeys, !availableKeys.contains(key) {
                 // key not found in availableKeys, skip it
                 isKeyPresent = false

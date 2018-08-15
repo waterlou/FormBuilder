@@ -12,7 +12,6 @@ import UIKit
 
 public class Form<M: FormDataMappable>: BaseForm {
     
-    //public var mapper = Mapper<M>()
     public var data: M?                          // data model
 
     public init(_ viewController: UIViewController, data: M) {

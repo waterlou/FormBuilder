@@ -54,6 +54,7 @@ extension FormRowViewProtocol where Self: UIView {
         cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
         cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
         cell.formRowViewProtocol = self
+        cell.separatorInset = .zero
         return cell
     }
 }

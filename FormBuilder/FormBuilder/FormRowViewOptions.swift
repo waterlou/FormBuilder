@@ -9,6 +9,7 @@
 import Foundation
 
 public struct FormRowViewOptions {
+    
     static var `default` = FormRowViewOptions()
     public static func setDefault(_ options: FormRowViewOptions) { FormRowViewOptions.default = options }
     
@@ -18,13 +19,15 @@ public struct FormRowViewOptions {
     public let minimumHeight: CGFloat?
     public let minimumLabelWidth: CGFloat?
     
-    public init(nibName: String? = nil,
-    bundle: Bundle? = nil,
-    minimumHeight: CGFloat? = nil,
-    minimumLabelWidth: CGFloat? = nil) {
+    public init(
+        nibName: String? = nil,
+        bundle: Bundle? = nil,
+        minimumHeight: CGFloat? = nil,
+        minimumLabelWidth: CGFloat? = nil) {
         self.nibName = nibName
         self.bundle = bundle
         self.minimumHeight = minimumHeight
         self.minimumLabelWidth = minimumLabelWidth
     }
+    
 }

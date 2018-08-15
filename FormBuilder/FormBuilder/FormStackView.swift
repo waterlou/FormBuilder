@@ -26,7 +26,7 @@ public class FormStackView: UIStackView {
             self.addArrangedSubview(rowView as! UIView)
         }
 
-        // copy data from model to control
+        // copy all data from model to control
         form.modelToControl()
         
         setupFinished = true

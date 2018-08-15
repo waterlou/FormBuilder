@@ -40,33 +40,38 @@ class TestFormTableViewController: FormTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // setup data
         data.name = "Lou Chi Wai"
         data.address = "Golden"
         data.phone = "26287519"
         data.slider1 = 0.2
         data.segment1 = "male"
         
+        // form options
         FormRowViewOptions.setDefault(FormRowViewOptions(
             minimumHeight: 66.0,
             minimumLabelWidth: 100.0
         ))
         
+        // create form with data, add row
         form = Form<Data>(self, data: data)
         form += [   // define views
             ("section1", .sectionHeader),
-            ("field1", .simpleText),
-            ("switch1", .uiSwitch),
-            ("slider1", .slider(min: 0.0, max: 1.0)),
-            ("segment1",    .segmentedControl(options: ["male", "female"])),
+                ("field1", .simpleText),
+                ("switch1", .uiSwitch),
+                ("slider1", .slider(min: 0.0, max: 1.0)),
+                ("segment1",    .segmentedControl(options: ["male", "female"])),
             ("section2", .sectionHeader),
-            ("name", .editText(editTextType: .text)),
-            ("address", .editText(editTextType: .text)),
-            ("phone", .editText(editTextType: .text)),
-            ("field2", .simpleText),
-            ("field3", .simpleText),
-            ("note", .textView),
+                ("name", .editText(editTextType: .text)),
+                ("address", .editText(editTextType: .text)),
+                ("phone", .editText(editTextType: .text)),
+                ("field2", .simpleText),
+                ("field3", .simpleText),
+                ("button1", .button),
+                ("note", .textView),
         ]
         
+        // setup labels
         form.labels = [ // define labels
             "name": "Name",
             "address": "Address",
@@ -75,21 +80,17 @@ class TestFormTableViewController: FormTableViewController {
             "male": "Male",
             "female": "Female",
             "segment1": "Gender",
+            "button1": "Click Me",
         ]
+        
+        // subscribe actions
+        form.subscribe(key: "button1", event: .buttonClicked) { _, _, _, _ in
+            print("button clicked")            
+        }
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             print(self.data)
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

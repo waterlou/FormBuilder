@@ -42,8 +42,9 @@ open class BaseForm: NSObject {
     public var labels: [String: String]?        // key -> label string
     public var icons: [String: UIImage]?        // key -> icons
     
-    public var context: Any? = nil
+    public var context: Any? = nil      // context for subscription calls
     
+    // table section handling
     private var containsSection = false
     var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
     
@@ -51,25 +52,25 @@ open class BaseForm: NSObject {
     public private(set) var subscriptions: [FormSubscription] = []
     
     // subscribe a event
-    public func subscribe(key: String?, event: FormSubscriptionEvent, closure: @escaping FormSubscription.Closure) {
+    public func subscribe(key: String?, event: FormSubscription.Event, closure: @escaping FormSubscription.Closure) {
         subscriptions.append(FormSubscription(key: key, event: event, closure: closure))
     }
     
     // signal a event
-    public func signal(key: String, event: FormSubscriptionEvent) {
+    public func signal(key: String, event: FormSubscription.Event) {
         guard let rowView = self.rowView(for: key) else {
             print("rowView not found for key \(key)")
             return
         }
         for subscription in self.subscriptions {
             if (subscription.key == nil || subscription.key! == key) && event == subscription.event {
-                subscription.closure(self, rowView, event)
+                subscription.closure(self, rowView, event, context)
             }
         }
     }
     
     internal func setupValidator() {
-        self.subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _ in
+        self.subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _, _ in
             guard let key = rowView.key, let value = self.valueFromControl(for: key), let validate = self.validates?[key] else { return }
             rowView.errors = self.validator.validate(value, for: key, types: validate)
         }
@@ -134,13 +135,13 @@ open class BaseForm: NSObject {
 
     // control -> model binding
     internal func controlToModel(keys: [String]? = nil) {
-        fatalError()
+        fatalError("not implemented")
     }
     
     // model -> control binding
     // if key is null, will refresh all value from models to control
     internal func modelToControl(keys: [String]? = nil) {
-        fatalError()
+        fatalError("not implemented")
     }
 
     // update control value
@@ -235,16 +236,16 @@ extension BaseForm {
     }
     
     var numberOfSections: Int {
-        updateSectionCountIfNeeded()
         if containsSection {
+            updateSectionCountIfNeeded()
             return sectionsCount.count
         }
         return 1
     }
     
     func numberOfRows(section: Int) -> Int {
-        updateSectionCountIfNeeded()
         if containsSection {
+            updateSectionCountIfNeeded()
             return sectionsCount[section]
         }
         return rowViews.count
@@ -271,3 +272,34 @@ extension BaseForm {
     }
 }
 
+extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
+    
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if let rowView = textView.parentFormRowView, let key = rowView.key {
+            self.controlToModel(keys: [key])
+            self.signal(key: key, event: .valueChanged)
+        }
+    }
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        if let rowView = textView.parentFormRowView, let key = rowView.key {
+            self.controlToModel(keys: [key])
+            self.signal(key: key, event: .valueChanging)
+        }
+    }
+    
+    @objc public func textEditingChanged(sender: UIControl) {
+        if let rowView = sender.parentFormRowView, let key = rowView.key {
+            self.controlToModel(keys: [key])
+            self.signal(key: key, event: .valueChanging)
+        }
+    }
+
+    @objc public func controlValueChanged(sender: UIControl) {
+        print("control value changed")
+        if let rowView = sender.parentFormRowView, let key = rowView.key {
+            self.controlToModel(keys: [key])
+            self.signal(key: key, event: .valueChanged)
+        }
+    }
+}

@@ -11,3 +11,8 @@ import Foundation
 public protocol FormDataMappable {
     mutating func mapping(map: FormDataMapping)
 }
+
+public class FormNoData: FormDataMappable {
+    public func mapping(map: FormDataMapping) {}
+    public init() {}
+}

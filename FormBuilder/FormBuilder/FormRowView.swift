@@ -101,13 +101,14 @@ open class FormRowView : UIView, FormRowViewProtocol {
     open var formTransform: FormTransformProtocol? = nil
 
     public var isSectionHeader: Bool {
-        if case .sectionHeader = type {
-            return true
-        }
+        if case .sectionHeader = type { return true }
         return false
     }
     
-    public var isSelectable: Bool = false
+    public var isSelectable: Bool {
+        if case .button = type { return true }
+        return false
+    }
     
     // tranform from type to view
     internal class func rowView(_ owner: Any, type: BasicType, options: FormRowViewOptions? = nil) -> FormRowView {
@@ -115,6 +116,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
         let nib = UINib(nibName: options?.nibName ?? "FormBuilderBasic", bundle: bundle)
         let view = nib.instantiate(withOwner: owner)[type.xibIndex.rawValue] as! FormRowView
         view.type = type
+        
+        view.descriptionLabel?.text = nil
         
         // add some constraints
         if let minimumHeight = options?.minimumHeight {
@@ -195,7 +198,9 @@ open class FormRowView : UIView, FormRowViewProtocol {
             case .email:
                 editTextField.keyboardType = .emailAddress
             }
-            editTextField.delegate = form
+            
+            editTextField.addTarget(form, action: #selector(BaseForm.textEditingChanged(sender:)), for: .editingChanged)
+            editTextField.addTarget(form, action: #selector(BaseForm.controlValueChanged(sender:)), for: .valueChanged)
             editTextField.inputAccessoryView = form.inputAccessoryView  // switching field
         }
         if let uiSwitch = uiSwitch {
@@ -225,8 +230,6 @@ open class FormRowView : UIView, FormRowViewProtocol {
             textView.delegate = form
             textView.inputAccessoryView = form.inputAccessoryView
         }
-        
-        form.modelToControl(keys: [key])    // load data
         form.signal(key: key, event: .setup)    // signal event
     }
 
