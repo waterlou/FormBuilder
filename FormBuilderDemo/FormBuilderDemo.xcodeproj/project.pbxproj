@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4908E2A321240D130020A265 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2A221240D130020A265 /* LoginViewController.swift */; };
+		4908E2A721241EB80020A265 /* StackViewBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2A621241EB80020A265 /* StackViewBorderView.swift */; };
 		49230FEA20F83910001EE3B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49230FE920F83910001EE3B0 /* AppDelegate.swift */; };
 		49230FEC20F83910001EE3B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49230FEB20F83910001EE3B0 /* ViewController.swift */; };
 		49230FEF20F83910001EE3B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49230FED20F83910001EE3B0 /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4908E2A221240D130020A265 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		4908E2A621241EB80020A265 /* StackViewBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewBorderView.swift; sourceTree = "<group>"; };
 		49230FE620F83910001EE3B0 /* FormBuilderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FormBuilderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49230FE920F83910001EE3B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49230FEB20F83910001EE3B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +77,8 @@
 				4923100C20F855A5001EE3B0 /* TestFormStackViewController.swift */,
 				4923101020F86C51001EE3B0 /* TestFormTableViewController.swift */,
 				4973012920FDD6E4003F89C1 /* MyFormLayout.xib */,
+				4908E2A221240D130020A265 /* LoginViewController.swift */,
+				4908E2A621241EB80020A265 /* StackViewBorderView.swift */,
 			);
 			path = FormBuilderDemo;
 			sourceTree = "<group>";
@@ -159,6 +165,8 @@
 			files = (
 				49230FEC20F83910001EE3B0 /* ViewController.swift in Sources */,
 				4923101120F86C51001EE3B0 /* TestFormTableViewController.swift in Sources */,
+				4908E2A721241EB80020A265 /* StackViewBorderView.swift in Sources */,
+				4908E2A321240D130020A265 /* LoginViewController.swift in Sources */,
 				4923100D20F855A5001EE3B0 /* TestFormStackViewController.swift in Sources */,
 				49230FEA20F83910001EE3B0 /* AppDelegate.swift in Sources */,
 			);

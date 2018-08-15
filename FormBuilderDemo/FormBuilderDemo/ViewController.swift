@@ -21,6 +21,7 @@ class ViewController: FormTableViewController {
             ("tableview", .button),
             ("stackview", .button),
             ("scrollstackview", .button),
+            ("login", .button),
         ]
         
         // setup labels
@@ -28,6 +29,7 @@ class ViewController: FormTableViewController {
             "tableview": "Table View",
             "stackview": "Stack View",
             "scrollstackview": "Scroll Stack View",
+            "login": "Login Example",
         ]
         
         // subscribe actions
@@ -40,6 +42,8 @@ class ViewController: FormTableViewController {
                     self.performSegue(withIdentifier: "simpleStackViewSegue", sender: nil)
                 case "scrollstackview":
                     self.performSegue(withIdentifier: "scrollableStackViewSegue", sender: nil)
+                case "login":
+                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
                 default:
                     break
                 }

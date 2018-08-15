@@ -34,6 +34,12 @@ class TestFormStackViewController: UIViewController {
         let data = Data(name: "Lou Chi Wai", address: "Golden", phone: "26287519")
         self.form = Form(self, data: data)
         
+        // form options
+        FormRowViewOptions.setDefault(FormRowViewOptions(
+            minimumHeight: 66.0,
+            minimumLabelWidth: 100.0
+        ))
+        
         // define views
         form += FormRowView.build(self, [
             ("field1",      .simpleText),
@@ -45,7 +51,7 @@ class TestFormStackViewController: UIViewController {
             ("phone",       .editText(editTextType: .text)),
             ("field2",      .simpleText),
             ("field3",      .textView),
-        ]) //, nibName: "MyFormLayout", bundle: Bundle.main)
+        ], options: .default)
         
         // define labels
         form.labels = [ // define labels
@@ -55,6 +61,15 @@ class TestFormStackViewController: UIViewController {
             "address"   :   "Address",
             "phone"     :   "Phone",
         ]
+        
+        form.subscribe(key: nil, event: .setup) { form, rowView, _, _ in
+            if let rowView = rowView as? FormRowView {
+                if let textField = rowView.editTextField {
+                    textField.textAlignment = .right
+                    textField.borderStyle = .none
+                }
+            }
+        }
 
         stackView.form = form
         // Do any additional setup after loading the view.

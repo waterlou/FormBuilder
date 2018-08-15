@@ -8,10 +8,13 @@
 
 import UIKit
 
-public class FormStackView: UIStackView {
+@IBDesignable public class FormStackView: UIStackView {
 
     public var form: BaseForm!
     var setupFinished = false
+    
+    // start add view from here, it is useful if you have subview already inside the stackview design in ib
+    @IBInspectable var startIndex: Int = 0
     
     public func setupForm() {
         //assert(form != nil, "Form not set in FormStackView")
@@ -20,10 +23,14 @@ public class FormStackView: UIStackView {
             return
         }
         
+        var index = startIndex
+        
         // start setup stackview
         for rowView in form.rowViews {
             rowView.setup(form: form)
-            self.addArrangedSubview(rowView as! UIView)
+            //self.addArrangedSubview(rowView as! UIView)
+            self.insertArrangedSubview(rowView as! UIView, at: index)
+            index += 1
         }
 
         // copy all data from model to control

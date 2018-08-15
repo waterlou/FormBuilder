@@ -117,8 +117,6 @@ open class FormRowView : UIView, FormRowViewProtocol {
         let view = nib.instantiate(withOwner: owner)[type.xibIndex.rawValue] as! FormRowView
         view.type = type
         
-        view.descriptionLabel?.text = nil
-        
         // add some constraints
         if let minimumHeight = options?.minimumHeight {
             // set minimum height of each row height

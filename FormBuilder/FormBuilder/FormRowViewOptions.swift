@@ -10,8 +10,9 @@ import Foundation
 
 public struct FormRowViewOptions {
     
-    static var `default` = FormRowViewOptions()
+    public static var `default` = FormRowViewOptions()
     public static func setDefault(_ options: FormRowViewOptions) { FormRowViewOptions.default = options }
+    public static func resetDefault() { FormRowViewOptions.default = FormRowViewOptions() }
     
     public let nibName: String?
     public let bundle: Bundle?

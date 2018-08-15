@@ -12,7 +12,7 @@ import UIKit
 
 public class Form<M: FormDataMappable>: BaseForm {
     
-    public var data: M?                          // data model
+    public var data: M?
 
     public init(_ viewController: UIViewController, data: M) {
         super.init(viewController)

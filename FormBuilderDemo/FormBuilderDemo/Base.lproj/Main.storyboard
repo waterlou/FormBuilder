@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Example-->
         <scene sceneID="9Dc-qg-hT0">
             <objects>
-                <tableViewController id="XBJ-Vv-q6n" customClass="ViewController" customModule="FormBuilderDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Example" id="XBJ-Vv-q6n" customClass="ViewController" customModule="FormBuilderDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="b5C-N1-dv7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,11 +38,12 @@
                             <outlet property="delegate" destination="XBJ-Vv-q6n" id="Dmm-Iw-xx3"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="0M2-Vq-CZX"/>
+                    <navigationItem key="navigationItem" title="Example" id="0M2-Vq-CZX"/>
                     <connections>
                         <segue destination="WaK-Al-1nW" kind="show" identifier="simpleTableViewSegue" id="8Os-Tu-oP3"/>
                         <segue destination="Gzw-Y1-lQH" kind="show" identifier="scrollableStackViewSegue" id="y13-lN-AsY"/>
                         <segue destination="xS6-To-hdP" kind="show" identifier="simpleStackViewSegue" id="S8x-Ug-SDb"/>
+                        <segue destination="IQT-y2-Ane" kind="show" identifier="loginSegue" id="9Xf-c0-Uaf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="quX-0q-nMy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -153,5 +154,91 @@
             </objects>
             <point key="canvasLocation" x="666" y="930"/>
         </scene>
+        <!--Login-->
+        <scene sceneID="ua3-2L-Jqg">
+            <objects>
+                <viewController title="Login" id="IQT-y2-Ane" customClass="LoginViewController" customModule="FormBuilderDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OvW-rL-eye">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aF4-ke-ezL">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxy-WY-V19" customClass="StackViewBorderView" customModule="FormBuilderDemo" customModuleProvider="target">
+                                        <rect key="frame" x="27.5" y="60" width="320" height="145"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="stackView" destination="zjf-U6-TpC" id="ulZ-R0-Qsx"/>
+                                        </connections>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zjf-U6-TpC" customClass="FormStackView" customModule="FormBuilder">
+                                        <rect key="frame" x="27.5" y="60" width="320" height="145"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="vFr-Q2-0DQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPw-XV-9Kz">
+                                                <rect key="frame" x="0.0" y="81" width="320" height="30"/>
+                                                <state key="normal" title="Login"/>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4RD-7F-4aO">
+                                                <rect key="frame" x="0.0" y="119" width="320" height="26"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHc-bk-6oz">
+                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="26"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                        <state key="normal" title="Register"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="78v-d6-sXP">
+                                                        <rect key="frame" x="160" y="0.0" width="160" height="26"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                        <state key="normal" title="Forget password"/>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="4C1-xj-nI5"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="startIndex">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zjf-U6-TpC" firstAttribute="centerX" secondItem="aF4-ke-ezL" secondAttribute="centerX" id="1ds-8q-8WC"/>
+                                    <constraint firstAttribute="bottom" secondItem="zjf-U6-TpC" secondAttribute="bottom" id="I3w-4x-MS2"/>
+                                    <constraint firstItem="zjf-U6-TpC" firstAttribute="top" secondItem="aF4-ke-ezL" secondAttribute="top" constant="60" id="IUl-EH-gHX"/>
+                                    <constraint firstItem="qxy-WY-V19" firstAttribute="leading" secondItem="zjf-U6-TpC" secondAttribute="leading" id="M7A-vT-fG1"/>
+                                    <constraint firstItem="qxy-WY-V19" firstAttribute="trailing" secondItem="zjf-U6-TpC" secondAttribute="trailing" id="YsO-9l-p5K"/>
+                                    <constraint firstItem="qxy-WY-V19" firstAttribute="top" secondItem="zjf-U6-TpC" secondAttribute="top" id="apN-Ff-fiu"/>
+                                    <constraint firstItem="qxy-WY-V19" firstAttribute="bottom" secondItem="zjf-U6-TpC" secondAttribute="bottom" id="kzT-13-cjk"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aF4-ke-ezL" firstAttribute="top" secondItem="H0Q-su-lUT" secondAttribute="top" id="L6c-X2-lRC"/>
+                            <constraint firstItem="H0Q-su-lUT" firstAttribute="trailing" secondItem="aF4-ke-ezL" secondAttribute="trailing" id="T80-Ji-Oea"/>
+                            <constraint firstItem="H0Q-su-lUT" firstAttribute="bottom" secondItem="aF4-ke-ezL" secondAttribute="bottom" id="gt7-gR-oKq"/>
+                            <constraint firstItem="aF4-ke-ezL" firstAttribute="leading" secondItem="H0Q-su-lUT" secondAttribute="leading" id="mqf-sw-wh5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="H0Q-su-lUT"/>
+                    </view>
+                    <connections>
+                        <outlet property="scrollViewBottomConstraint" destination="gt7-gR-oKq" id="pmT-pW-dDh"/>
+                        <outlet property="stackView" destination="zjf-U6-TpC" id="iKp-8n-kew"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZJE-ES-Nsv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="664.79999999999995" y="1665.5172413793105"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="logo" width="216" height="73"/>
+    </resources>
 </document>

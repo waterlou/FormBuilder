@@ -35,6 +35,7 @@ public func +=(form: BaseForm, rowViewDatas: [(String, FormRowView.BasicType)]) 
 
 
 open class BaseForm: NSObject {
+    
     public weak var viewController: UIViewController?
     
     // Form is comoposed of:
@@ -47,6 +48,10 @@ open class BaseForm: NSObject {
     // table section handling
     private var containsSection = false
     var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
+    
+    // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
+    public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
+    var currentKeyboardHeight: CGFloat = 0
     
     // reactive
     public private(set) var subscriptions: [FormSubscription] = []
@@ -199,6 +204,7 @@ extension BaseForm {
 }
 
 extension BaseForm {
+    // table view section support
     
     func updateSectionCountIfNeeded() {
         if sectionsCount.count == 0 {
@@ -273,6 +279,7 @@ extension BaseForm {
 }
 
 extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
+    // control's delegate
     
     public func textViewDidEndEditing(_ textView: UITextView) {
         if let rowView = textView.parentFormRowView, let key = rowView.key {
@@ -302,4 +309,75 @@ extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
             self.signal(key: key, event: .valueChanged)
         }
     }
+}
+
+extension BaseForm {
+    // handle keyboard show hide and resize scrollview, for stackView
+
+    // scroll so that first responder will not be blocked
+    func ensureFirstResponderInPosition() {
+        //TODO: focus on the current responder
+        if let rootView = self.viewController?.view, let firstResponder = rootView.firstResponder {
+            var viewableRect = rootView.bounds
+            if #available(iOS 11.0, *) {
+                viewableRect = rootView.safeAreaLayoutGuide.layoutFrame
+            }
+            viewableRect.size.height -= currentKeyboardHeight   // substract keyboard height
+            let viewRect = firstResponder.convert(firstResponder.bounds, to: rootView)
+            if !viewableRect.contains(viewRect) {
+                // find if there is outer scrollview
+                var scrollView : UIScrollView? = nil
+                var v = firstResponder
+                while let superview = v.superview {
+                    v = superview
+                    if let sv = v as? UIScrollView {
+                        scrollView = sv
+                    }
+                }
+                if let scrollView = scrollView {
+                    // find parent scrollView
+                    let contentOffset = scrollView.contentOffset
+                    let newContentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - viewableRect.midY + viewRect.maxY)
+                    scrollView.setContentOffset(newContentOffset, animated: true)
+                }
+            }
+        }
+    }
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let keyboardResizeConstraint = keyboardResizeConstraint else { return }
+        guard let viewController = self.viewController else { return }
+        let i = sender.userInfo!
+        let k = (i[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+        keyboardResizeConstraint.constant = k
+        currentKeyboardHeight = k
+        //keyboardResizeConstraint.constant = k - viewController.bottomLayoutGuide.length
+        let s: TimeInterval = (i[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        UIView.animate(withDuration: s) { viewController.view.layoutIfNeeded() }
+        
+        ensureFirstResponderInPosition()
+    }
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        guard let keyboardResizeConstraint = keyboardResizeConstraint else { return }
+        guard let viewController = self.viewController else { return }
+        let info = sender.userInfo!
+        let s: TimeInterval = (info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        keyboardResizeConstraint.constant = 0
+        currentKeyboardHeight = 0
+        UIView.animate(withDuration: s) { viewController.view.layoutIfNeeded() }
+    }
+    
+    public func watchKeyboardNotifications(constraint: NSLayoutConstraint) {
+        self.keyboardResizeConstraint = constraint
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+    }
+    
 }

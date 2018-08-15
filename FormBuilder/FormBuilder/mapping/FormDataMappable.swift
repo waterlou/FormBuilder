@@ -8,10 +8,13 @@
 
 import Foundation
 
+// Map data between this model and controls
 public protocol FormDataMappable {
     mutating func mapping(map: FormDataMapping)
 }
 
+// when creating a form without any data, you can simply using this
+// class to create a form
 public class FormNoData: FormDataMappable {
     public func mapping(map: FormDataMapping) {}
     public init() {}
