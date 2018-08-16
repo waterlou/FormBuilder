@@ -14,10 +14,12 @@ public class FormDataMapping {
     public internal(set) var isKeyPresent = false
     public internal(set) var currentValue: Any?
     public internal(set) var currentKey: String?
+    public var optionValue: String?
     
     enum MappingType {
         case fromControl
         case toControl
+        case assignOption
     }
     let form: BaseForm
     let mappingType: MappingType
@@ -85,6 +87,28 @@ public class FormDataMapping {
         form.updateControl(value: value, for: key)
     }
 
+    // for assign option key to variable in options
+    func assignOption<T>(_ value: inout T) {
+        guard let optionValue = optionValue else { fatalError("must set optionValue before call") }
+        guard let key = currentKey else { fatalError("key not found") }
+        if let availableKeys = availableKeys, !availableKeys.contains(key) { return }
+        switch value {
+        case let options as [String]:
+            var newOptions = options
+            if let index = options.index(of: optionValue) {
+                newOptions.remove(at: index)
+            }
+            else {
+                newOptions.append(optionValue)
+            }
+            value = newOptions as! T
+        case is String:
+            value = optionValue as! T
+        default:
+            fatalError("unsupported type")
+        }
+    }
+
 }
 
 infix operator <-
@@ -98,7 +122,10 @@ public func <- <T>(left: inout T?, right: FormDataMapping) {
         }
     case .toControl:   // from variable to control
         right.setValue(left)
+    case .assignOption:
+        right.assignOption(&left)
     }
+    
 }
 
 // non-optional
@@ -110,6 +137,8 @@ public func <- <T>(left: inout T, right: FormDataMapping) {
         }
     case .toControl:   // from variable to control
         right.setValue(left)
+    case .assignOption:
+        right.assignOption(&left)
     }
 }
 

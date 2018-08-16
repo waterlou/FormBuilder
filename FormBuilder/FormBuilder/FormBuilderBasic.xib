@@ -49,9 +49,72 @@
                 <outlet property="descriptionLabel" destination="LA5-0a-eU3" id="uE8-Lg-KU8"/>
                 <outlet property="titleLabel" destination="hox-Mm-DE8" id="EHk-K8-YaT"/>
             </connections>
-            <point key="canvasLocation" x="-101" y="-71"/>
+            <point key="canvasLocation" x="-105" y="-307"/>
         </view>
-        <view contentMode="scaleToFill" id="CQn-kE-qfU" userLabel="Form Row View (1. Label and Edit Field)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="Bb6-dQ-1fE" userLabel="Form Row View (1. Label and Option)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glQ-0F-2Pv">
+                    <rect key="frame" x="12" y="8" width="42" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABC" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lm3-ok-RAx">
+                    <rect key="frame" x="333" y="8" width="30" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" name="selectedMenuItemColor" catalog="System" colorSpace="catalog"/>
+                    <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value=""/>
+                    </userDefinedRuntimeAttributes>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Jzt-lz-s19" firstAttribute="bottom" secondItem="glQ-0F-2Pv" secondAttribute="bottom" constant="8" id="FlB-ms-JiF"/>
+                <constraint firstItem="Jzt-lz-s19" firstAttribute="bottom" secondItem="Lm3-ok-RAx" secondAttribute="bottom" constant="8" id="Igf-AT-xNK"/>
+                <constraint firstItem="Lm3-ok-RAx" firstAttribute="top" secondItem="Jzt-lz-s19" secondAttribute="top" constant="8" id="Oc4-KH-clS"/>
+                <constraint firstItem="Jzt-lz-s19" firstAttribute="trailing" secondItem="Lm3-ok-RAx" secondAttribute="trailing" constant="12" id="Wvw-J8-cLQ"/>
+                <constraint firstItem="Lm3-ok-RAx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="glQ-0F-2Pv" secondAttribute="trailing" constant="8" id="fOt-NH-2lj"/>
+                <constraint firstItem="glQ-0F-2Pv" firstAttribute="leading" secondItem="Jzt-lz-s19" secondAttribute="leading" constant="12" id="xEg-d1-01b"/>
+                <constraint firstItem="glQ-0F-2Pv" firstAttribute="top" secondItem="Jzt-lz-s19" secondAttribute="top" constant="8" id="xPr-Gd-eh2"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="Jzt-lz-s19"/>
+            <connections>
+                <outlet property="descriptionLabel" destination="Lm3-ok-RAx" id="tYy-ya-TIv"/>
+                <outlet property="titleLabel" destination="glQ-0F-2Pv" id="t08-0x-RDe"/>
+            </connections>
+            <point key="canvasLocation" x="-106" y="-166"/>
+        </view>
+        <view contentMode="scaleToFill" id="FDr-1Q-Vav" userLabel="Form Row View (2. Button)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BNA-ZT-hHN">
+                    <rect key="frame" x="12" y="8" width="351" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="BNA-ZT-hHN" firstAttribute="leading" secondItem="rIb-aV-Up9" secondAttribute="leading" constant="12" id="KJa-mm-NjY"/>
+                <constraint firstItem="BNA-ZT-hHN" firstAttribute="top" secondItem="rIb-aV-Up9" secondAttribute="top" constant="8" id="Mo4-YX-dpZ"/>
+                <constraint firstItem="rIb-aV-Up9" firstAttribute="bottom" secondItem="BNA-ZT-hHN" secondAttribute="bottom" constant="8" id="X4x-c2-jaY"/>
+                <constraint firstItem="rIb-aV-Up9" firstAttribute="trailing" secondItem="BNA-ZT-hHN" secondAttribute="trailing" constant="12" id="oGO-Rl-R56"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="rIb-aV-Up9"/>
+            <connections>
+                <outlet property="titleLabel" destination="BNA-ZT-hHN" id="eSb-eb-Nnq"/>
+            </connections>
+            <point key="canvasLocation" x="-105.5" y="-27"/>
+        </view>
+        <view contentMode="scaleToFill" id="CQn-kE-qfU" userLabel="Form Row View (3. Label and Edit Field)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -85,12 +148,12 @@
             </connections>
             <point key="canvasLocation" x="-102" y="100"/>
         </view>
-        <view contentMode="scaleToFill" id="0WI-tV-2gx" userLabel="Form Row View (2. Label and Switch)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="0WI-tV-2gx" userLabel="Form Row View (4. Label and Switch)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMK-h6-aEe">
-                    <rect key="frame" x="12" y="16" width="42" height="56"/>
+                    <rect key="frame" x="12" y="8" width="42" height="72"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -101,8 +164,8 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="LtR-j5-M1I" firstAttribute="bottom" secondItem="kMK-h6-aEe" secondAttribute="bottom" constant="16" id="9rA-vv-frM"/>
-                <constraint firstItem="kMK-h6-aEe" firstAttribute="top" secondItem="LtR-j5-M1I" secondAttribute="top" constant="16" id="GnD-UN-omZ"/>
+                <constraint firstItem="LtR-j5-M1I" firstAttribute="bottom" secondItem="kMK-h6-aEe" secondAttribute="bottom" constant="8" id="9rA-vv-frM"/>
+                <constraint firstItem="kMK-h6-aEe" firstAttribute="top" secondItem="LtR-j5-M1I" secondAttribute="top" constant="8" id="GnD-UN-omZ"/>
                 <constraint firstItem="15M-iw-c7N" firstAttribute="centerY" secondItem="0WI-tV-2gx" secondAttribute="centerY" id="Mec-Cg-Cj2"/>
                 <constraint firstItem="15M-iw-c7N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kMK-h6-aEe" secondAttribute="trailing" constant="12" id="Nfb-Hv-W4r"/>
                 <constraint firstItem="kMK-h6-aEe" firstAttribute="leading" secondItem="LtR-j5-M1I" secondAttribute="leading" constant="12" id="fAe-Di-fo2"/>
@@ -116,7 +179,7 @@
             </connections>
             <point key="canvasLocation" x="-102" y="261"/>
         </view>
-        <view contentMode="scaleToFill" id="wVD-a9-lkU" userLabel="Form Row View (3. Label and Slider)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="wVD-a9-lkU" userLabel="Form Row View (5. Label and Slider)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -147,7 +210,7 @@
             </connections>
             <point key="canvasLocation" x="-103.5" y="417"/>
         </view>
-        <view contentMode="scaleToFill" id="Q0n-5i-aXM" userLabel="Form Row View (4. Label and SegmentControl)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="Q0n-5i-aXM" userLabel="Form Row View (6. Label and SegmentControl)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -182,7 +245,7 @@
             </connections>
             <point key="canvasLocation" x="-104" y="570"/>
         </view>
-        <view contentMode="scaleToFill" id="Mea-HV-Aez" userLabel="Form Row View (5. TextView)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="Mea-HV-Aez" userLabel="Form Row View (7. TextView)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -197,7 +260,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="tpc-hT-7HM" firstAttribute="top" secondItem="Pgd-ly-SVj" secondAttribute="top" constant="8" id="3GY-d7-E7I"/>
                 <constraint firstItem="tpc-hT-7HM" firstAttribute="bottom" secondItem="Pgd-ly-SVj" secondAttribute="bottom" constant="-8" id="CW6-DI-YJ1"/>

@@ -13,6 +13,8 @@
 		4908E29D21228F150020A265 /* FormRowViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E29C21228F150020A265 /* FormRowViewOptions.swift */; };
 		4908E29F2123BA3B0020A265 /* FormBuilderBasicsStackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */; };
 		4908E2A12123C0220020A265 /* FormTransformProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2A02123C0220020A265 /* FormTransformProtocol.swift */; };
+		4908E2AA21246F160020A265 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2A921246F160020A265 /* Popover.swift */; };
+		4908E2AC21246FAC0020A265 /* FormOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2AB21246FAC0020A265 /* FormOptionsTableViewController.swift */; };
 		49230FD720F838EA001EE3B0 /* FormBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 49230FD520F838E9001EE3B0 /* FormBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49230FFF20F83953001EE3B0 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49230FFE20F83953001EE3B0 /* Form.swift */; };
 		4923100120F8395D001EE3B0 /* FormRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923100020F8395D001EE3B0 /* FormRowView.swift */; };
@@ -36,6 +38,8 @@
 		4908E29C21228F150020A265 /* FormRowViewOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowViewOptions.swift; sourceTree = "<group>"; };
 		4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormBuilderBasicsStackView.xib; sourceTree = "<group>"; };
 		4908E2A02123C0220020A265 /* FormTransformProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTransformProtocol.swift; sourceTree = "<group>"; };
+		4908E2A921246F160020A265 /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
+		4908E2AB21246FAC0020A265 /* FormOptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormOptionsTableViewController.swift; sourceTree = "<group>"; };
 		49230FD220F838E9001EE3B0 /* FormBuilder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormBuilder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49230FD520F838E9001EE3B0 /* FormBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormBuilder.h; sourceTree = "<group>"; };
 		49230FD620F838EA001EE3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +86,14 @@
 			path = views;
 			sourceTree = "<group>";
 		};
+		4908E2A821246F030020A265 /* options */ = {
+			isa = PBXGroup;
+			children = (
+				4908E2A921246F160020A265 /* Popover.swift */,
+			);
+			path = options;
+			sourceTree = "<group>";
+		};
 		49230FC820F838E9001EE3B0 = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +114,7 @@
 		49230FD420F838E9001EE3B0 /* FormBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				4908E2A821246F030020A265 /* options */,
 				4908E29B2122759F0020A265 /* views */,
 				4908E2902121564D0020A265 /* mapping */,
 				4973012D20FDEE2D003F89C1 /* protocol */,
@@ -120,6 +133,7 @@
 				4973012720FDC482003F89C1 /* FormBuilderBasic.xib */,
 				4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */,
 				49B75B4E20FC8CC7004A2A43 /* Assets.xcassets */,
+				4908E2AB21246FAC0020A265 /* FormOptionsTableViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -231,11 +245,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4908E2AC21246FAC0020A265 /* FormOptionsTableViewController.swift in Sources */,
 				497300E620FD8373003F89C1 /* UIView+Subview.swift in Sources */,
 				4973012C20FDD7AA003F89C1 /* FormRowViewProtocol.swift in Sources */,
 				49B75B4D20FC8C64004A2A43 /* NavigationAccessoryView.swift in Sources */,
 				4923101320F88C2C001EE3B0 /* FormValidator.swift in Sources */,
 				4989536C211A93140044BF44 /* UITextFieldFormProtocol.swift in Sources */,
+				4908E2AA21246F160020A265 /* Popover.swift in Sources */,
 				4923100120F8395D001EE3B0 /* FormRowView.swift in Sources */,
 				4908E29D21228F150020A265 /* FormRowViewOptions.swift in Sources */,
 				4973012620FDA62A003F89C1 /* BaseForm.swift in Sources */,

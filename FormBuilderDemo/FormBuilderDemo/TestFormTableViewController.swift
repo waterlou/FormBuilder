@@ -19,6 +19,8 @@ class TestFormTableViewController: FormTableViewController {
         var slider1: Float = 0.5
         var segment1: String = ""
         var note: String = ""
+        var option1: String = ""
+        var option2: [String] = []
 
         func mapping(map: FormDataMapping) {
             name    <- map["name"]
@@ -28,12 +30,16 @@ class TestFormTableViewController: FormTableViewController {
             slider1 <- map["slider1"]
             segment1 <- map["segment1"]
             note <- map["note"]
+            option1 <- map["option1"]
+            option2 <- map["option2"]
         }
         
         var debugDescription: String {
-            return "\(String(describing: self.name)), \(String(describing: self.phone)), \(self.switch1), \(self.slider1), \(self.segment1), \(self.note)"
+            return "\(String(describing: self.name)), \(String(describing: self.phone)), \(self.switch1), \(self.slider1), \(self.segment1), \(self.note), \(self.option1), \(self.option2)"
         }
     }
+    
+    @IBOutlet weak var debugLabel: UILabel!
     
     let data = Data()
     
@@ -49,8 +55,12 @@ class TestFormTableViewController: FormTableViewController {
         
         // form options
         FormRowViewOptions.setDefault(FormRowViewOptions(
+            titleFont: UIFont.systemFont(ofSize: 13),
             minimumHeight: 66.0,
-            minimumLabelWidth: 100.0
+            minimumLabelWidth: 66.0,
+            editTextFont: UIFont.systemFont(ofSize: 17),
+            textBorderStyle: UITextBorderStyle.none,
+            textAlignment: .left
         ))
         
         // create form with data, add row
@@ -61,6 +71,16 @@ class TestFormTableViewController: FormTableViewController {
                 ("switch1", .uiSwitch),
                 ("slider1", .slider(min: 0.0, max: 1.0)),
                 ("segment1",    .segmentedControl(options: ["male", "female"])),
+            ("singleOptionsSection", .sectionHeader),
+                ("option1", .optionValue(key: "value1")),
+                ("option1", .optionValue(key: "value2")),
+                ("option1", .optionValue(key: "value3")),
+                ("option1", .optionValue(key: "value4")),
+            ("multipleOptionsSection", .sectionHeader),
+                ("option2", .optionValue(key: "value1")),
+                ("option2", .optionValue(key: "value2")),
+                ("option2", .optionValue(key: "value3")),
+                ("option2", .optionValue(key: "value4")),
             ("section2", .sectionHeader),
                 ("name", .editText(editTextType: .text)),
                 ("address", .editText(editTextType: .text)),
@@ -84,13 +104,26 @@ class TestFormTableViewController: FormTableViewController {
         ]
         
         // subscribe actions
-        form.subscribe(key: "button1", event: .buttonClicked) { _, _, _, _ in
+        form.subscribe(key: "button1", event: .buttonClicked) { [unowned self] _, _, _, _ in
             print("button clicked")            
         }
         
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            print(self.data)
+        form.subscribe(key: nil, event: .valueChanged) { [unowned self] _, _, _, _ in
+            self.debugLabel.text = self.data.debugDescription
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+            if let strongSelf = self {
+                self?.debugLabel.text = strongSelf.data.debugDescription
+                print(strongSelf.data)
+            }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // form.becomeFirstResponder()
+    }
+
 
 }

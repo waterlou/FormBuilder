@@ -35,4 +35,37 @@ extension UIView {
         
         return nil
     }
+    
+    func parentOfClass<T>() -> T? {
+        var v: UIView = self
+        while let superview = v.superview {
+            v = superview
+            if let classed_v = v as? T {
+                return classed_v
+            }
+        }
+        return nil
+    }
+    
+    func ensureFirstResponderInPosition(inset: UIEdgeInsets) {
+        let view = self
+        if let firstResponder = view.firstResponder {
+            var viewableRect = view.bounds
+            if #available(iOS 11.0, *) {
+                viewableRect = self.safeAreaLayoutGuide.layoutFrame
+            }
+            viewableRect = UIEdgeInsetsInsetRect(viewableRect, inset)
+            let viewRect = firstResponder.convert(firstResponder.bounds, to: view)
+            if !viewableRect.contains(viewRect) {   // blocked
+                // find if there is any outer scrollview
+                if let scrollView: UIScrollView = firstResponder.parentOfClass() {
+                    // find parent scrollView
+                    let contentOffset = scrollView.contentOffset
+                    let newContentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - viewableRect.midY + viewRect.maxY)
+                    scrollView.setContentOffset(newContentOffset, animated: true)
+                }
+            }
+        }
+    }
+
 }

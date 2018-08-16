@@ -43,8 +43,8 @@ class LoginViewController: UIViewController {
         
         // define labels
         form.labels = [ // define labels
-            "email"    :   "E-mail",
-            "password"    :   "Password",
+            "email" : "E-mail",
+            "password" : "Password",
         ]
  
         // setup stackview
@@ -56,6 +56,11 @@ class LoginViewController: UIViewController {
         
         // cleanup default setting (optional)
         FormRowViewOptions.resetDefault()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        form.becomeFirstResponder()
     }
 
 }

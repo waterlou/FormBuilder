@@ -57,6 +57,11 @@ extension FormRowViewProtocol where Self: UIView {
         cell.separatorInset = .zero
         return cell
     }
+    
+    // try to cell the cell from rowView
+    var cell: FormRowTableViewCell? {
+        return self.superview?.superview as? FormRowTableViewCell
+    }
 }
 
 extension UIView {

@@ -29,10 +29,8 @@ open class FormTableViewController: UITableViewController {
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let rowView = form.rowView(row: indexPath.row, section: indexPath.section) else { fatalError("cannot get rowView") }
         guard let key = rowView.key else { fatalError("key not set") }
-        if let cell = tableView.dequeueReusableCell(withIdentifier: key) {
-            return cell
-        }
-        let cell = rowView.cell(withIdentifier: key)
+        let cell = rowView.cell ?? rowView.cell(withIdentifier: key)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: key) as? FormRowTableViewCell ?? rowView.cell(withIdentifier: key)
         cell.formRowViewProtocol.setup(form: form)  // setup control
         form.modelToControl(keys: [key])
         return cell
@@ -45,9 +43,8 @@ open class FormTableViewController: UITableViewController {
     open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)    // deselect it
         guard let rowView = form.rowView(row: indexPath.row, section: indexPath.section) else { fatalError("cannot get rowView") }
-        guard let key = rowView.key else { fatalError("key not set") }
         if rowView.isSelectable {
-            form.signal(key: key, event: .buttonClicked)
+            form.signal(rowView: rowView, event: .buttonClicked)
         }
     }
     

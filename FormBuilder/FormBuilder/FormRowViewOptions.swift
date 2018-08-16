@@ -17,18 +17,30 @@ public struct FormRowViewOptions {
     public let nibName: String?
     public let bundle: Bundle?
     
+    public let titleFont: UIFont?
     public let minimumHeight: CGFloat?
     public let minimumLabelWidth: CGFloat?
+    public let editTextFont: UIFont?
+    public let textBorderStyle: UITextBorderStyle?
+    public let textAlignment: NSTextAlignment?
     
     public init(
         nibName: String? = nil,
         bundle: Bundle? = nil,
+        titleFont: UIFont? = nil,
         minimumHeight: CGFloat? = nil,
-        minimumLabelWidth: CGFloat? = nil) {
+        minimumLabelWidth: CGFloat? = nil,
+        editTextFont: UIFont? = nil,
+        textBorderStyle: UITextBorderStyle? = nil,
+        textAlignment: NSTextAlignment? = nil) {
         self.nibName = nibName
         self.bundle = bundle
+        self.titleFont = titleFont
         self.minimumHeight = minimumHeight
         self.minimumLabelWidth = minimumLabelWidth
+        self.editTextFont = editTextFont
+        self.textBorderStyle = textBorderStyle
+        self.textAlignment = textAlignment
     }
     
 }

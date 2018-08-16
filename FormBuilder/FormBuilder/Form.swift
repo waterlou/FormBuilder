@@ -18,7 +18,7 @@ public class Form<M: FormDataMappable>: BaseForm {
         super.init(viewController)
         self.data = data
     }
-
+    
     // two ways binding
     override func controlToModel(keys: [String]? = nil) {
         let map = FormDataMapping(form: self, mappingType: .fromControl, availableKeys: keys)
@@ -30,5 +30,12 @@ public class Form<M: FormDataMappable>: BaseForm {
         data?.mapping(map: map)
     }
     
+    open override func assignOptionValue(optionKey: String, for key: String) {
+        let map = FormDataMapping(form: self, mappingType: .assignOption, availableKeys: [key])
+        map.optionValue = optionKey
+        data?.mapping(map: map)
+        modelToControl(keys: [key]) // update UI
+    }
+
 }
 

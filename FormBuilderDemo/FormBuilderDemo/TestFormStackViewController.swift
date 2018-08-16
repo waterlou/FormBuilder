@@ -16,11 +16,13 @@ class TestFormStackViewController: UIViewController {
         var name: String?
         var address: String?
         var phone: String?
+        var gender: String?
         
         mutating func mapping(map: FormDataMapping) {
             address <- map["address"]
             name    <- map["name"]
             phone   <- map["phone"]
+            gender  <- map["segment1"]
         }
     }
     
@@ -31,7 +33,7 @@ class TestFormStackViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let data = Data(name: "Lou Chi Wai", address: "Golden", phone: "26287519")
+        let data = Data(name: "Lou Chi Wai", address: "Golden", phone: "26287519", gender: "male")
         self.form = Form(self, data: data)
         
         // form options

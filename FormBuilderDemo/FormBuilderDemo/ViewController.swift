@@ -11,6 +11,18 @@ import FormBuilder
 
 class ViewController: FormTableViewController {
     
+    class Data: FormDataMappable {
+        
+        var option: [String] = ["option1", "option2"]
+        
+        func mapping(map: FormDataMapping) {
+            option <- map["option"]
+        }
+    }
+    
+    var data = Data()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -22,6 +34,7 @@ class ViewController: FormTableViewController {
             ("stackview", .button),
             ("scrollstackview", .button),
             ("login", .button),
+            ("option", .button),
         ]
         
         // setup labels
@@ -33,7 +46,7 @@ class ViewController: FormTableViewController {
         ]
         
         // subscribe actions
-        form.subscribe(key: nil, event: .buttonClicked) { _, rowView, _, _ in
+        form.subscribe(key: nil, event: .buttonClicked) { [unowned self] _, rowView, _, _ in
             if let key = rowView.key {
                 switch key {
                 case "tableview":
@@ -44,6 +57,11 @@ class ViewController: FormTableViewController {
                     self.performSegue(withIdentifier: "scrollableStackViewSegue", sender: nil)
                 case "login":
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
+                case "option":
+                    let labels = ["option1": "Option 1", "option2": "Option 2"]
+                    let optionKeys = ["option1", "option2"]
+                    let optionsViewController = FormOptionsTableViewController(data: self.data, key: "option", optionKeys: optionKeys, labels: labels)
+                    self.navigationController?.pushViewController(optionsViewController, animated: true)
                 default:
                     break
                 }

@@ -52,6 +52,7 @@ open class BaseForm: NSObject {
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
     public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
     var currentKeyboardHeight: CGFloat = 0
+
     
     // reactive
     public private(set) var subscriptions: [FormSubscription] = []
@@ -60,19 +61,17 @@ open class BaseForm: NSObject {
     public func subscribe(key: String?, event: FormSubscription.Event, closure: @escaping FormSubscription.Closure) {
         subscriptions.append(FormSubscription(key: key, event: event, closure: closure))
     }
-    
+  
     // signal a event
-    public func signal(key: String, event: FormSubscription.Event) {
-        guard let rowView = self.rowView(for: key) else {
-            print("rowView not found for key \(key)")
-            return
-        }
+    public func signal(rowView: FormRowViewProtocol, event: FormSubscription.Event) {
+        guard let key = rowView.key else { fatalError("key not set") }
         for subscription in self.subscriptions {
             if (subscription.key == nil || subscription.key! == key) && event == subscription.event {
                 subscription.closure(self, rowView, event, context)
             }
         }
     }
+    
     
     internal func setupValidator() {
         self.subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _, _ in
@@ -97,7 +96,10 @@ open class BaseForm: NSObject {
     }()
     
     public init(_ viewController: UIViewController) {
+        super.init()
+        
         self.viewController = viewController
+        self.subscribeForOptions()
     }
     
     // append row
@@ -128,7 +130,7 @@ open class BaseForm: NSObject {
         return icons?[key]
     }
     
-    // get rowView by Key
+    // get first rowView by Key
     open func rowView(for key: String) -> FormRowViewProtocol? {
         for rowView in rowViews {
             if rowView.key == key {
@@ -137,7 +139,17 @@ open class BaseForm: NSObject {
         }
         return nil
     }
+    
+    open func rowViews(for key: String) -> [FormRowViewProtocol] {
+        return rowViews.filter { $0.key == key }
+    }
 
+
+    open func assignOptionValue(optionKey: String, for key: String) {
+        fatalError("not implemented")
+    }
+
+    
     // control -> model binding
     internal func controlToModel(keys: [String]? = nil) {
         fatalError("not implemented")
@@ -151,9 +163,7 @@ open class BaseForm: NSObject {
 
     // update control value
     internal func updateControl<T>(value: T, for key: String) {
-        if let rowView = self.rowView(for: key) {
-            rowView.update(value: value)
-        }
+        rowViews(for: key).forEach { $0.update(value: value) }    // handle multiple controls with same key
     }
 
     // get value from control
@@ -163,14 +173,44 @@ open class BaseForm: NSObject {
         }
         return nil
     }
+    
+    private func subscribeForOptions() {
+        self.subscribe(key: nil, event: .buttonClicked) { form,rowView,_,_ in
+            if let rowView = rowView as? FormRowView {
+                if case .optionValue(let optionKey) = rowView.type {
+                    form.assignOptionValue(optionKey: optionKey, for: rowView.key!)
+                    form.signal(rowView: rowView, event: .valueChanged)
+                }
+            }
+        }
+    }
 }
 
 extension BaseForm {
+    
+    // set first responder
+    public func becomeFirstResponder(key: String? = nil) -> Bool {
+        if let key = key {
+            if let rowView = self.rowView(for: key) {
+                return rowView.becomeFirstResponder()
+            }
+        }
+        else {
+            for rowView in self.rowViews {
+                if rowView.canBecomeFirstResponder {
+                    return rowView.becomeFirstResponder()
+                }
+            }
+        }
+        return false
+    }
+    
     // accessory view arrows and done
     @objc func prevFirstResponder() {
         print("prev first responder")
         if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.index(where: { return $0.key == firstResponder.key }) {
             index -= 1
+            if index < 0 { index = self.rowViews.count-1 }
             while index >= 0 {
                 let nextRowView = self.rowViews[index]
                 if nextRowView.canBecomeFirstResponder {
@@ -178,6 +218,7 @@ extension BaseForm {
                     return
                 }
                 index -= 1
+                if index < 0 { index = self.rowViews.count-1 }
             }
         }
     }
@@ -186,6 +227,7 @@ extension BaseForm {
         print("next first responder")
         if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.index(where: { return $0.key == firstResponder.key }) {
             index += 1
+            if index >= self.rowViews.count { index = 0 }
             while index < self.rowViews.count {
                 let nextRowView = self.rowViews[index]
                 if nextRowView.canBecomeFirstResponder {
@@ -193,6 +235,7 @@ extension BaseForm {
                     return
                 }
                 index += 1
+                if index >= self.rowViews.count { index = 0 }
             }
         }
     }
@@ -226,9 +269,11 @@ extension BaseForm {
                 sectionsCount.append(itemCount)
                 itemCount = 0
             }
-            itemCount += 1
+            else {
+                itemCount += 1
+            }
         }
-        sectionsCount.append(itemCount - 1)
+        sectionsCount.append(itemCount)
     }
     
     internal func indexForSection(section: Int) -> Int {
@@ -284,65 +329,34 @@ extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
     public func textViewDidEndEditing(_ textView: UITextView) {
         if let rowView = textView.parentFormRowView, let key = rowView.key {
             self.controlToModel(keys: [key])
-            self.signal(key: key, event: .valueChanged)
+            self.signal(rowView: rowView, event: .valueChanged)
         }
     }
     
     public func textViewDidChange(_ textView: UITextView) {
         if let rowView = textView.parentFormRowView, let key = rowView.key {
             self.controlToModel(keys: [key])
-            self.signal(key: key, event: .valueChanging)
+            self.signal(rowView: rowView, event: .valueChanging)
         }
     }
     
     @objc public func textEditingChanged(sender: UIControl) {
         if let rowView = sender.parentFormRowView, let key = rowView.key {
             self.controlToModel(keys: [key])
-            self.signal(key: key, event: .valueChanging)
+            self.signal(rowView: rowView, event: .valueChanging)
         }
     }
 
     @objc public func controlValueChanged(sender: UIControl) {
-        print("control value changed")
         if let rowView = sender.parentFormRowView, let key = rowView.key {
             self.controlToModel(keys: [key])
-            self.signal(key: key, event: .valueChanged)
+            self.signal(rowView: rowView, event: .valueChanged)
         }
     }
 }
 
 extension BaseForm {
     // handle keyboard show hide and resize scrollview, for stackView
-
-    // scroll so that first responder will not be blocked
-    func ensureFirstResponderInPosition() {
-        //TODO: focus on the current responder
-        if let rootView = self.viewController?.view, let firstResponder = rootView.firstResponder {
-            var viewableRect = rootView.bounds
-            if #available(iOS 11.0, *) {
-                viewableRect = rootView.safeAreaLayoutGuide.layoutFrame
-            }
-            viewableRect.size.height -= currentKeyboardHeight   // substract keyboard height
-            let viewRect = firstResponder.convert(firstResponder.bounds, to: rootView)
-            if !viewableRect.contains(viewRect) {
-                // find if there is outer scrollview
-                var scrollView : UIScrollView? = nil
-                var v = firstResponder
-                while let superview = v.superview {
-                    v = superview
-                    if let sv = v as? UIScrollView {
-                        scrollView = sv
-                    }
-                }
-                if let scrollView = scrollView {
-                    // find parent scrollView
-                    let contentOffset = scrollView.contentOffset
-                    let newContentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - viewableRect.midY + viewRect.maxY)
-                    scrollView.setContentOffset(newContentOffset, animated: true)
-                }
-            }
-        }
-    }
     
     @objc func keyboardWillShow(sender: NSNotification) {
         guard let keyboardResizeConstraint = keyboardResizeConstraint else { return }
@@ -355,7 +369,8 @@ extension BaseForm {
         let s: TimeInterval = (i[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         UIView.animate(withDuration: s) { viewController.view.layoutIfNeeded() }
         
-        ensureFirstResponderInPosition()
+        // ensure first responder not blocked
+        self.viewController?.view.ensureFirstResponderInPosition(inset: UIEdgeInsets(top: 0, left: 0, bottom: k, right: 0))
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {

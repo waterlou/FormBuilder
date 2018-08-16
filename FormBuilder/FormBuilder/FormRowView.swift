@@ -22,12 +22,6 @@ open class FormRowView : UIView, FormRowViewProtocol {
      
      */
     public enum BasicType {
-        public enum OptionType {
-            case none
-            case single
-            case multiple
-            case date
-        }
         public enum EditTextType {
             case text       // normal text
             case email      // email address
@@ -36,36 +30,38 @@ open class FormRowView : UIView, FormRowViewProtocol {
             case number     // double
             case currency(prefix: String)   // double currency
         }
-        public enum ButtonActionType {
-            case segue(segueIdentifier: String)
-        }
         
         case undefined
         case sectionHeader
-        case simpleText
-        case option(optionType: OptionType)
-        case editText(editTextType: EditTextType)
-        case uiSwitch
-        case slider(min: Float, max: Float)
-        case segmentedControl(options: [String])
-        case textView
-        case button
+        case simpleText // need refine, simple text with selection
+        case option(optionKeys: [String]) // <-- need finish this
+        case editText(editTextType: EditTextType)   // need refine
+        case uiSwitch       // DONE
+        case slider(min: Float, max: Float) // DONE
+        case segmentedControl(options: [String])    // DONE
+        case textView   // DONE
+        case button // DONE
+        case optionValue(key: String)
         
         enum FormBuilderXibIndex: Int {
             case label = 0
-            case textField = 1
-            case uiSwitch = 2
-            case slider = 3
-            case segmentedControl = 4
-            case textView = 5
+            case labelAndOption = 1
+            case button = 2
+            case textField = 3
+            case uiSwitch = 4
+            case slider = 5
+            case segmentedControl = 6
+            case textView = 7
         }
         
         var xibIndex: FormBuilderXibIndex {
             switch self {
-            case .undefined, .sectionHeader, .simpleText, .button:
+            case .undefined, .sectionHeader, .simpleText:
                 return .label
-            case .option:
-                return .label   // not implemented yet
+            case .option, .optionValue:
+                return .labelAndOption   // not implemented yet
+            case .button:
+                return .button
             case .editText:
                 return .textField
             case .uiSwitch:
@@ -81,10 +77,33 @@ open class FormRowView : UIView, FormRowViewProtocol {
     }
 
     // FormRowViewProtocol
-    
     // row key
     open var key: String?
-
+    
+    open var isSectionHeader: Bool {
+        if case .sectionHeader = type { return true }
+        return false
+    }
+    
+    open var isSelectable: Bool {
+        switch type {
+        case .button, .optionValue:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    open var errors: [Error]? {
+        didSet {
+            // response error to screen
+        }
+    }
+    
+    public private(set) var type: BasicType = .undefined
+    open var formTransform: FormTransformProtocol? = nil
+    
+    
     // default components in view that base class will handle it
     @IBOutlet open var iconImageView: UIImageView?
     @IBOutlet open var titleLabel: UILabel?
@@ -97,25 +116,29 @@ open class FormRowView : UIView, FormRowViewProtocol {
     @IBOutlet open var stepper: UIStepper?
     @IBOutlet open var textView: UITextView?
  
-    var type: BasicType = .undefined
-    open var formTransform: FormTransformProtocol? = nil
-
-    public var isSectionHeader: Bool {
-        if case .sectionHeader = type { return true }
-        return false
-    }
-    
-    public var isSelectable: Bool {
-        if case .button = type { return true }
-        return false
-    }
-    
     // tranform from type to view
-    internal class func rowView(_ owner: Any, type: BasicType, options: FormRowViewOptions? = nil) -> FormRowView {
+    internal class func rowView(_ owner: Any, key: String, type: BasicType, options: FormRowViewOptions? = nil) -> FormRowView {
         let bundle = options?.bundle ?? Bundle(for: FormRowView.self)
         let nib = UINib(nibName: options?.nibName ?? "FormBuilderBasic", bundle: bundle)
         let view = nib.instantiate(withOwner: owner)[type.xibIndex.rawValue] as! FormRowView
+        view.key = key
         view.type = type
+
+        if let titleFont = options?.titleFont {
+            view.titleLabel?.font = titleFont
+        }
+        
+        if let editTextFont = options?.editTextFont {
+            view.editTextField?.font = editTextFont
+        }
+        
+        if let textBorderStyle = options?.textBorderStyle {
+            view.editTextField?.borderStyle = textBorderStyle
+        }
+        
+        if let textAlignment = options?.textAlignment {
+            view.editTextField?.textAlignment = textAlignment
+        }
         
         // add some constraints
         if let minimumHeight = options?.minimumHeight {
@@ -137,8 +160,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     public class func build(_ owner: Any, _ viewTypePairs: [(String, BasicType)], options: FormRowViewOptions? = nil, nibName: String? = nil, bundle: Bundle? = nil) -> [FormRowView] {
         var rowViews = [FormRowView]()
         for (key, viewType) in viewTypePairs {
-            let rowView = self.rowView(owner, type: viewType, options: options)
-            rowView.key = key
+            let rowView = self.rowView(owner, key: key, type: viewType, options: options)
             rowViews.append(rowView)
         }
         return rowViews
@@ -180,7 +202,12 @@ open class FormRowView : UIView, FormRowViewProtocol {
         guard let key = key else { fatalError("key not set") }
         // you can setup label, icon
         if let titleLabel = titleLabel {
-            titleLabel.text = form.label(for: key)
+            if case .optionValue(let optionKey) = type {
+                titleLabel.text = form.label(for: optionKey)
+            }
+            else {
+                titleLabel.text = form.label(for: key)
+            }
         }
         if let editTextField = editTextField, case .editText(let editType) = type {
             switch editType {
@@ -228,13 +255,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
             textView.delegate = form
             textView.inputAccessoryView = form.inputAccessoryView
         }
-        form.signal(key: key, event: .setup)    // signal event
-    }
-
-    open var errors: [Error]? {
-        didSet {
-            // response error to screen
-        }
+        form.signal(rowView: self, event: .setup)    // signal event
     }
 
     // value -> control
@@ -255,6 +276,17 @@ open class FormRowView : UIView, FormRowViewProtocol {
             }
         case .textView:
             self.textView?.text = value as? String
+        case .optionValue(let optionKey):   // set checkmark according to the optionValue
+            if let string = value as? String {  // single value
+                if let cell = self.cell {
+                    cell.accessoryType = string == optionKey ? .checkmark : .none
+                }
+            }
+            else if let strings = value as? [String] {  // multiple values
+                if let cell = self.cell {
+                    cell.accessoryType = strings.contains(optionKey) ? .checkmark : .none
+                }
+            }
         default:
             break
         }
@@ -290,9 +322,9 @@ open class FormRowView : UIView, FormRowViewProtocol {
             return nil
         case .textView:
             return self.textView?.text
+        // case .optionValue(let optionKey), option is a little bit different that it always set directly to model
         default:
             return nil
         }
     }       // get value from control
-
 }
