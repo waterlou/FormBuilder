@@ -28,6 +28,7 @@ TODO: Add long description of the pod here.
   #s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder', :tag => s.version.to_s }
   s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder' }
   s.social_media_url = 'https://twitter.com/waterlou'
+  s.swift_version = '4.0'
 
   s.ios.deployment_target = '9.0'
 

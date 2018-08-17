@@ -46,12 +46,12 @@ open class BaseForm: NSObject {
     public var context: Any? = nil      // context for subscription calls
     
     // table section handling
-    fileprivate var containsSection = false
+    private var containsSection = false
     
     var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
     
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
-    public fileprivate(set) var keyboardResizeConstraint: NSLayoutConstraint?
+    public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
     var currentKeyboardHeight: CGFloat = 0
 
     
