@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'FormBuilder/FormBuilder/**/*.{swift}'
-  s.resources = 'FormBuilder/FormBuilder/**/*.{xcassets, xib}'
+  s.resources = ['FormBuilder/FormBuilder/**/*.xcassets', 'FormBuilder/FormBuilder/**/*.xib']
 
   s.frameworks = 'UIKit'
 end
