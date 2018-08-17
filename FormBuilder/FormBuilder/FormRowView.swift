@@ -144,7 +144,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         if let minimumHeight = options?.minimumHeight {
             // set minimum height of each row height
             let minimumHeightConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 0.0, constant: minimumHeight)
-            minimumHeightConstraint.priority = UILayoutPriority.required
+            minimumHeightConstraint.priority = .required
             view.addConstraint(minimumHeightConstraint)
         }
         
