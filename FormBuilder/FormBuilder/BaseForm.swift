@@ -46,7 +46,8 @@ open class BaseForm: NSObject {
     public var context: Any? = nil      // context for subscription calls
     
     // table section handling
-    private var containsSection = false
+    fileprivate var containsSection = false
+    
     var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
     
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview

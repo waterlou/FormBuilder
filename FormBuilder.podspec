@@ -25,13 +25,14 @@ TODO: Add long description of the pod here.
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Water Lou' => 'water@waterworld.com.hk' }
-  s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder', :tag => s.version.to_s }
+  #s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder', :tag => s.version.to_s }
+  s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder' }
   s.social_media_url = 'https://twitter.com/waterlou'
 
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'FormBuilder/FormBuilder/**/*.{swift}'
-  s.resources = ['FormBuilder/Assets/**/*.xcassets', 'FormBuilder/Assets/**/*.xib']
+  s.resources = 'FormBuilder/FormBuilder/**/*.{xcassets, xib}'
 
   s.frameworks = 'UIKit'
 end
