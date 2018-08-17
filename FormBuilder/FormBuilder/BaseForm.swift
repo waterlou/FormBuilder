@@ -51,7 +51,7 @@ open class BaseForm: NSObject {
     var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
     
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
-    public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
+    public fileprivate(set) var keyboardResizeConstraint: NSLayoutConstraint?
     var currentKeyboardHeight: CGFloat = 0
 
     
