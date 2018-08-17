@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/waterlou/FormBuilder'
+  s.homepage         = 'https://www.waterworld.com.hk'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Water Lou' => 'water@waterworld.com.hk' }
-  s.source           = { :git => 'https://github.com/waterlou/FormBuilder.git', :tag => s.version.to_s }
+  s.source           = { :git => 'git@git.waterworld.com.hk:FormBuilder', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/waterlou'
 
   s.ios.deployment_target = '9.0'
