@@ -34,7 +34,7 @@ open class FormOptionsTableViewController<Data: FormDataMappable>: FormTableView
             form.appendRow(rowView: FormRowView.rowView(self, key: key, type: .optionValue(key: $0)))
         }
         
-        form.subscribe(key: nil, event: .valueChanged) { form,rowView,_,_ in
+        form._subscribe(key: nil, event: .valueChanged) { form,rowView,_ in
             if let form = form as? Form<Data>, !form.lastAssignIsMultiValue {   // hack to close
                 self.doDismiss(animated: true)
             }

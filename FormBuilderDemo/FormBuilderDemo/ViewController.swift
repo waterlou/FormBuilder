@@ -28,7 +28,7 @@ class ViewController: FormTableViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         // create form with data, add row
-        form = Form<FormNoData>(self, data: FormNoData())
+        let form = Form<FormNoData>(self, data: FormNoData())
         form += [   // define views
             ("tableview", .button),
             ("stackview", .button),
@@ -46,7 +46,7 @@ class ViewController: FormTableViewController {
         ]
         
         // subscribe actions
-        form.subscribe(key: nil, event: .buttonClicked) { [unowned self] _, rowView, _, _ in
+        form.subscribe(key: nil, event: .buttonClicked) { [unowned self] form, rowView, event, data in
             if let key = rowView.key {
                 switch key {
                 case "tableview":
@@ -60,13 +60,15 @@ class ViewController: FormTableViewController {
                 case "option":
                     let labels = ["option1": "Option 1", "option2": "Option 2"]
                     let optionKeys = ["option1", "option2"]
-                    let optionsViewController = FormOptionsTableViewController(data: self.data, key: "option", optionKeys: optionKeys, labels: labels)
+                    let optionsViewController = FormOptionsTableViewController(data: data, key: "option", optionKeys: optionKeys, labels: labels)
                     self.navigationController?.pushViewController(optionsViewController, animated: true)
                 default:
                     break
                 }
             }
         }
+        
+        self.form = form
     }
 
     override func didReceiveMemoryWarning() {

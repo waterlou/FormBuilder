@@ -49,8 +49,6 @@ class TestFormTableViewController: FormTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let data = self.data    // so no need to capture self in closure
-
         // setup data
         data.name = "Lou Chi Wai"
         data.address = "Golden"
@@ -69,8 +67,7 @@ class TestFormTableViewController: FormTableViewController {
         ))
         
         // create form with data, add row
-        form = Form<Data>(self, data: data)
-        form.context = data
+        let form = Form<Data>(self, data: data)
         form += [   // define views
             ("section1", .sectionHeader),
                 ("field1", .simpleText),
@@ -111,12 +108,12 @@ class TestFormTableViewController: FormTableViewController {
         ]
         
         // button action
-        form.subscribe(key: "button1", event: .buttonClicked) { /*[unowned self]*/ _, _, _, _ in
+        form.subscribe(key: "button1", event: .buttonClicked) { form, rowView, event, data in
             print("button clicked")            
         }
         
         // when segment value changed
-        form.subscribe(key: "segment1", event: .valueChanged) { form, _, _, _ in
+        form.subscribe(key: "segment1", event: .valueChanged) { form, rowView, event, data in
             if data.segment1 == "male" {
                 data.slider1 = 0.1
             }
@@ -127,12 +124,14 @@ class TestFormTableViewController: FormTableViewController {
         }
         
         // change debug message when any value changed
-        form.subscribe(key: nil, event: .valueChanged) { [unowned self] _, _, _, _ in
+        form.subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, event, data in
             self.debugLabel.text = data.debugDescription
         }
-        form.subscribe(key: nil, event: .valueChanging) { [unowned self] _, _, _, _ in
+        form.subscribe(key: nil, event: .valueChanging) { [unowned self] form, rowView, event, data in
             self.debugLabel.text = data.debugDescription
         }
+        
+        self.form = form
     }
     
     override func viewDidAppear(_ animated: Bool) {

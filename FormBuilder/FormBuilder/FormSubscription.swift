@@ -8,29 +8,14 @@
 
 import Foundation
 
-public class FormSubscription {
+public enum Event {
+    case setup                  // going to show the row
+    case becomeFirstResponder   // not implmemented
+    case resignFirstResponder   // not implmemented
     
-    public enum Event {
-        case setup                  // going to show the row
-        case becomeFirstResponder   // not implmemented
-        case resignFirstResponder   // not implmemented
-        
-        case valueChanging
-        case valueChanged
-        case buttonClicked
-        
-        case validationStatusChanged    // status changed
-    }
+    case valueChanging
+    case valueChanged
+    case buttonClicked
     
-    public typealias Closure = (BaseForm, FormRowViewProtocol, Event, Any?) -> ()
-    
-    let key: String?
-    let event: Event
-    let closure: Closure
-    
-    public init(key: String?, event: Event, closure: @escaping Closure) {
-        self.key = key
-        self.event = event
-        self.closure = closure
-    }
+    case validationStatusChanged    // status changed
 }

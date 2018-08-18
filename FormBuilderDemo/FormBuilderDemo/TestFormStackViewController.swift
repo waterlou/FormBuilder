@@ -65,7 +65,7 @@ class TestFormStackViewController: UIViewController {
             "phone"     :   "Phone",
         ]
         
-        form.subscribe(key: nil, event: .setup) { form, rowView, _, _ in
+        form.subscribe(key: nil, event: .setup) { form, rowView, event, data in
             if let rowView = rowView as? FormRowView {
                 if let textField = rowView.editTextField {
                     textField.textAlignment = .right

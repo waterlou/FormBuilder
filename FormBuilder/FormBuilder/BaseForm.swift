@@ -43,8 +43,6 @@ open class BaseForm: NSObject {
     public var labels: [String: String]?        // key -> label string
     public var icons: [String: UIImage]?        // key -> icons
     
-    public var context: Any? = nil      // context for subscription calls
-    
     // table section handling
     private var containsSection = false
     
@@ -54,28 +52,42 @@ open class BaseForm: NSObject {
     public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
     var currentKeyboardHeight: CGFloat = 0
 
-    
+    internal class BaseFormSubscription {
+        
+        public typealias Closure = (BaseForm, FormRowViewProtocol, Event) -> ()
+        
+        let key: String?
+        let event: Event
+        let closure: Closure
+        
+        internal init(key: String?, event: Event, closure: @escaping Closure) {
+            self.key = key
+            self.event = event
+            self.closure = closure
+        }
+    }
+
     // reactive
-    public private(set) var subscriptions: [FormSubscription] = []
+    private var baseSubscriptions: [BaseFormSubscription] = []
     
     // subscribe a event
-    public func subscribe(key: String?, event: FormSubscription.Event, closure: @escaping FormSubscription.Closure) {
-        subscriptions.append(FormSubscription(key: key, event: event, closure: closure))
+    internal func _subscribe(key: String?, event: Event, closure: @escaping BaseFormSubscription.Closure) {
+        baseSubscriptions.append(BaseFormSubscription(key: key, event: event, closure: closure))
     }
   
     // signal a event
-    public func signal(rowView: FormRowViewProtocol, event: FormSubscription.Event) {
+    public func signal(rowView: FormRowViewProtocol, event: Event) {
         guard let key = rowView.key else { fatalError("key not set") }
-        for subscription in self.subscriptions {
+        for subscription in self.baseSubscriptions {
             if (subscription.key == nil || subscription.key! == key) && event == subscription.event {
-                subscription.closure(self, rowView, event, context)
+                subscription.closure(self, rowView, event)
             }
         }
     }
     
     
     internal func setupValidator() {
-        self.subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _, _ in
+        self._subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _ in
             guard let key = rowView.key, let value = self.valueFromControl(for: key), let validate = self.validates?[key] else { return }
             rowView.errors = self.validator.validate(value, for: key, types: validate)
         }
@@ -180,7 +192,7 @@ open class BaseForm: NSObject {
     }
     
     private func subscribeForOptions() {
-        self.subscribe(key: nil, event: .buttonClicked) { form,rowView,_,_ in
+        self._subscribe(key: nil, event: .buttonClicked) { form,rowView,_ in
             if let rowView = rowView as? FormRowView {
                 switch rowView.type {
                 case .optionValue(let optionKey):
