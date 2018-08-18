@@ -21,6 +21,7 @@ class TestFormTableViewController: FormTableViewController {
         var note: String = ""
         var option1: String = ""
         var option2: [String] = []
+        var option3: String = ""
 
         func mapping(map: FormDataMapping) {
             name    <- map["name"]
@@ -32,10 +33,12 @@ class TestFormTableViewController: FormTableViewController {
             note <- map["note"]
             option1 <- map["option1"]
             option2 <- map["option2"]
+            option3 <- map["option3"]
         }
         
         var debugDescription: String {
-            return "\(String(describing: self.name)), \(String(describing: self.phone)), \(self.switch1), \(self.slider1), \(self.segment1), \(self.note), \(self.option1), \(self.option2)"
+            return dumpClassVariables(obj: self)
+//            return "\(String(describing: self.name)), \(String(describing: self.phone)), \(self.switch1), \(self.slider1), \(self.segment1), \(self.note), \(self.option1), \(self.option2)"
         }
     }
     
@@ -45,6 +48,8 @@ class TestFormTableViewController: FormTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let data = self.data    // so no need to capture self in closure
 
         // setup data
         data.name = "Lou Chi Wai"
@@ -65,12 +70,22 @@ class TestFormTableViewController: FormTableViewController {
         
         // create form with data, add row
         form = Form<Data>(self, data: data)
+        form.context = data
         form += [   // define views
             ("section1", .sectionHeader),
                 ("field1", .simpleText),
                 ("switch1", .uiSwitch),
                 ("slider1", .slider(min: 0.0, max: 1.0)),
                 ("segment1",    .segmentedControl(options: ["male", "female"])),
+            ("section2", .sectionHeader),
+                ("name", .editText(editTextType: .text)),
+                ("address", .editText(editTextType: .text)),
+                ("phone", .editText(editTextType: .text)),
+                ("field2", .simpleText),
+                ("field3", .simpleText),
+                ("button1", .button),
+                ("option3", .option(optionKeys: ["okey1", "okey2", "okey3", "okey4"])),
+                ("note", .textView),
             ("singleOptionsSection", .sectionHeader),
                 ("option1", .optionValue(key: "value1")),
                 ("option1", .optionValue(key: "value2")),
@@ -81,14 +96,6 @@ class TestFormTableViewController: FormTableViewController {
                 ("option2", .optionValue(key: "value2")),
                 ("option2", .optionValue(key: "value3")),
                 ("option2", .optionValue(key: "value4")),
-            ("section2", .sectionHeader),
-                ("name", .editText(editTextType: .text)),
-                ("address", .editText(editTextType: .text)),
-                ("phone", .editText(editTextType: .text)),
-                ("field2", .simpleText),
-                ("field3", .simpleText),
-                ("button1", .button),
-                ("note", .textView),
         ]
         
         // setup labels
@@ -103,26 +110,34 @@ class TestFormTableViewController: FormTableViewController {
             "button1": "Click Me",
         ]
         
-        // subscribe actions
-        form.subscribe(key: "button1", event: .buttonClicked) { [unowned self] _, _, _, _ in
+        // button action
+        form.subscribe(key: "button1", event: .buttonClicked) { /*[unowned self]*/ _, _, _, _ in
             print("button clicked")            
         }
         
-        form.subscribe(key: nil, event: .valueChanged) { [unowned self] _, _, _, _ in
-            self.debugLabel.text = self.data.debugDescription
+        // when segment value changed
+        form.subscribe(key: "segment1", event: .valueChanged) { form, _, _, _ in
+            if data.segment1 == "male" {
+                data.slider1 = 0.1
+            }
+            else {
+                data.slider1 = 0.8
+            }
+            form.modelToControl(keys: ["slider1"])
         }
         
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            if let strongSelf = self {
-                self?.debugLabel.text = strongSelf.data.debugDescription
-                print(strongSelf.data)
-            }
+        // change debug message when any value changed
+        form.subscribe(key: nil, event: .valueChanged) { [unowned self] _, _, _, _ in
+            self.debugLabel.text = data.debugDescription
+        }
+        form.subscribe(key: nil, event: .valueChanging) { [unowned self] _, _, _, _ in
+            self.debugLabel.text = data.debugDescription
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // form.becomeFirstResponder()
+        form.becomeFirstResponder()
     }
 
 

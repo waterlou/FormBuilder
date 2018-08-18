@@ -146,7 +146,7 @@ open class BaseForm: NSObject {
     }
 
 
-    open func assignOptionValue(optionKey: String, for key: String) {
+    open func assignOptionValue(optionKey: String, for key: String) -> Bool {
         fatalError("not implemented")
     }
 
@@ -158,7 +158,11 @@ open class BaseForm: NSObject {
     
     // model -> control binding
     // if key is null, will refresh all value from models to control
-    internal func modelToControl(keys: [String]? = nil) {
+    open func modelToControl(keys: [String]? = nil) {
+        fatalError("not implemented")
+    }
+    
+    open func showOptions(rowView: FormRowViewProtocol, optionKeys: [String]) {
         fatalError("not implemented")
     }
 
@@ -178,9 +182,14 @@ open class BaseForm: NSObject {
     private func subscribeForOptions() {
         self.subscribe(key: nil, event: .buttonClicked) { form,rowView,_,_ in
             if let rowView = rowView as? FormRowView {
-                if case .optionValue(let optionKey) = rowView.type {
-                    form.assignOptionValue(optionKey: optionKey, for: rowView.key!)
+                switch rowView.type {
+                case .optionValue(let optionKey):
+                    _ = form.assignOptionValue(optionKey: optionKey, for: rowView.key!)
                     form.signal(rowView: rowView, event: .valueChanged)
+                case .option(let optionKeys):
+                    form.showOptions(rowView: rowView, optionKeys: optionKeys)
+                default:
+                    break
                 }
             }
         }
@@ -190,7 +199,7 @@ open class BaseForm: NSObject {
 extension BaseForm {
     
     // set first responder
-    public func becomeFirstResponder(key: String? = nil) -> Bool {
+    @discardableResult public func becomeFirstResponder(key: String? = nil) -> Bool {
         if let key = key {
             if let rowView = self.rowView(for: key) {
                 return rowView.becomeFirstResponder()

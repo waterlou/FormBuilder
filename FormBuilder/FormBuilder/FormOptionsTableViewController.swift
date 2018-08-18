@@ -13,7 +13,7 @@ open class FormOptionsTableViewController<Data: FormDataMappable>: FormTableView
     var key: String!
     var optionKeys: [String] = []
     
-    public init(data: Data, key: String, optionKeys: [String], labels: [String: String]) {
+    public init(data: Data, key: String, optionKeys: [String], labels: [String: String]?) {
         super.init(style: .grouped)
         
         self.key = key
@@ -34,14 +34,10 @@ open class FormOptionsTableViewController<Data: FormDataMappable>: FormTableView
             form.appendRow(rowView: FormRowView.rowView(self, key: key, type: .optionValue(key: $0)))
         }
         
-        form.subscribe(key: nil, event: .buttonClicked) { form,rowView,_,_ in
-            if let rowView = rowView as? FormRowView {
-                if case .optionValue(let optionKey) = rowView.type {
-                    form.assignOptionValue(optionKey: optionKey, for: rowView.key!)
-                    form.signal(rowView: rowView, event: .valueChanged)
-                }
+        form.subscribe(key: nil, event: .valueChanged) { form,rowView,_,_ in
+            if let form = form as? Form<Data>, !form.lastAssignIsMultiValue {   // hack to close
+                self.doDismiss(animated: true)
             }
-            //self.doDismiss(animated: true)
         }
     }
     

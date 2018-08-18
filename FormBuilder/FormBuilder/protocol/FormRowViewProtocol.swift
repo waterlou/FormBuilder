@@ -12,10 +12,10 @@ public protocol FormRowViewProtocolBase: class {
     // key of the rowView
     var key: String? { get }
 
-    // if this row view is a section header, return string or
+    // if this row view is a section header
     var isSectionHeader: Bool { get }
     
-    // show error
+    // display error
     var errors: [Error]? { get set }
     
     // is it selectable, for tableView
@@ -24,13 +24,10 @@ public protocol FormRowViewProtocolBase: class {
     // setup rowView
     func setup(form: BaseForm)
     
-    // responder
+    // first responder
     var isFirstResponder: Bool { get }
     var canBecomeFirstResponder: Bool { get }
     func becomeFirstResponder() -> Bool
-    
-    // validation
-    // var valiationTexts: [String] { }
     
     // functions for binding
     func update(value: Any?)    // update value to control
@@ -53,12 +50,11 @@ extension FormRowViewProtocol where Self: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
         cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
-        cell.formRowViewProtocol = self
         cell.separatorInset = .zero
         return cell
     }
     
-    // try to cell the cell from rowView
+    // try to get the cell from rowView
     var cell: FormRowTableViewCell? {
         return self.superview?.superview as? FormRowTableViewCell
     }

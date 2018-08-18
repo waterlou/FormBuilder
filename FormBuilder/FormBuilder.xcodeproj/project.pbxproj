@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4908E2922121566D0020A265 /* FormDataMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2912121566D0020A265 /* FormDataMap.swift */; };
+		4908E2922121566D0020A265 /* FormDataMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2912121566D0020A265 /* FormDataMapping.swift */; };
 		4908E2962122629D0020A265 /* FormDataMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E2952122629D0020A265 /* FormDataMappable.swift */; };
 		4908E298212266E90020A265 /* FormSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E297212266E90020A265 /* FormSubscription.swift */; };
 		4908E29D21228F150020A265 /* FormRowViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4908E29C21228F150020A265 /* FormRowViewOptions.swift */; };
@@ -26,13 +26,14 @@
 		4973012620FDA62A003F89C1 /* BaseForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973012520FDA62A003F89C1 /* BaseForm.swift */; };
 		4973012820FDC482003F89C1 /* FormBuilderBasic.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4973012720FDC482003F89C1 /* FormBuilderBasic.xib */; };
 		4973012C20FDD7AA003F89C1 /* FormRowViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973012B20FDD7AA003F89C1 /* FormRowViewProtocol.swift */; };
+		4984F9FF2126BD23008E4BE0 /* dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984F9FE2126BD23008E4BE0 /* dump.swift */; };
 		4989536C211A93140044BF44 /* UITextFieldFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989536B211A93140044BF44 /* UITextFieldFormProtocol.swift */; };
 		49B75B4D20FC8C64004A2A43 /* NavigationAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B75B4C20FC8C63004A2A43 /* NavigationAccessoryView.swift */; };
 		49B75B4F20FC8CC7004A2A43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B75B4E20FC8CC7004A2A43 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4908E2912121566D0020A265 /* FormDataMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataMap.swift; sourceTree = "<group>"; };
+		4908E2912121566D0020A265 /* FormDataMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataMapping.swift; sourceTree = "<group>"; };
 		4908E2952122629D0020A265 /* FormDataMappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataMappable.swift; sourceTree = "<group>"; };
 		4908E297212266E90020A265 /* FormSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSubscription.swift; sourceTree = "<group>"; };
 		4908E29C21228F150020A265 /* FormRowViewOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowViewOptions.swift; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		4973012520FDA62A003F89C1 /* BaseForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseForm.swift; sourceTree = "<group>"; };
 		4973012720FDC482003F89C1 /* FormBuilderBasic.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormBuilderBasic.xib; sourceTree = "<group>"; };
 		4973012B20FDD7AA003F89C1 /* FormRowViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowViewProtocol.swift; sourceTree = "<group>"; };
+		4984F9FE2126BD23008E4BE0 /* dump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dump.swift; sourceTree = "<group>"; };
 		4989536B211A93140044BF44 /* UITextFieldFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldFormProtocol.swift; sourceTree = "<group>"; };
 		49B75B4C20FC8C63004A2A43 /* NavigationAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationAccessoryView.swift; sourceTree = "<group>"; };
 		49B75B4E20FC8CC7004A2A43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,7 +74,7 @@
 		4908E2902121564D0020A265 /* mapping */ = {
 			isa = PBXGroup;
 			children = (
-				4908E2912121566D0020A265 /* FormDataMap.swift */,
+				4908E2912121566D0020A265 /* FormDataMapping.swift */,
 				4908E2952122629D0020A265 /* FormDataMappable.swift */,
 			);
 			path = mapping;
@@ -114,6 +116,7 @@
 		49230FD420F838E9001EE3B0 /* FormBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				4984F9FD2126BD16008E4BE0 /* utilities */,
 				4908E2A821246F030020A265 /* options */,
 				4908E29B2122759F0020A265 /* views */,
 				4908E2902121564D0020A265 /* mapping */,
@@ -161,6 +164,14 @@
 				4908E2A02123C0220020A265 /* FormTransformProtocol.swift */,
 			);
 			path = protocol;
+			sourceTree = "<group>";
+		};
+		4984F9FD2126BD16008E4BE0 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4984F9FE2126BD23008E4BE0 /* dump.swift */,
+			);
+			path = utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +262,7 @@
 				49B75B4D20FC8C64004A2A43 /* NavigationAccessoryView.swift in Sources */,
 				4923101320F88C2C001EE3B0 /* FormValidator.swift in Sources */,
 				4989536C211A93140044BF44 /* UITextFieldFormProtocol.swift in Sources */,
+				4984F9FF2126BD23008E4BE0 /* dump.swift in Sources */,
 				4908E2AA21246F160020A265 /* Popover.swift in Sources */,
 				4923100120F8395D001EE3B0 /* FormRowView.swift in Sources */,
 				4908E29D21228F150020A265 /* FormRowViewOptions.swift in Sources */,
@@ -261,7 +273,7 @@
 				4908E298212266E90020A265 /* FormSubscription.swift in Sources */,
 				4908E2962122629D0020A265 /* FormDataMappable.swift in Sources */,
 				4923100520F83C45001EE3B0 /* FormTableViewController.swift in Sources */,
-				4908E2922121566D0020A265 /* FormDataMap.swift in Sources */,
+				4908E2922121566D0020A265 /* FormDataMapping.swift in Sources */,
 				4908E2A12123C0220020A265 /* FormTransformProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

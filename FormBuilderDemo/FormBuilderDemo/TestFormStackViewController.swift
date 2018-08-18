@@ -29,6 +29,7 @@ class TestFormStackViewController: UIViewController {
     var form: Form<Data>!
 
     @IBOutlet weak var stackView: FormStackView!
+    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +75,15 @@ class TestFormStackViewController: UIViewController {
         }
 
         stackView.form = form
+        
+        // draw border around stackview
+        StackViewBorderView(drawBounds: false, drawSeparator: true).attach(to: self.stackView)
+        
+        // monitor keyboard change
+        if scrollViewBottomConstraint != nil {
+            form.watchKeyboardNotifications(constraint: scrollViewBottomConstraint)
+        }
+        
         // Do any additional setup after loading the view.
         stackView.setupForm()
     }

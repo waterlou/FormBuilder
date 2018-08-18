@@ -13,6 +13,7 @@ import UIKit
 public class Form<M: FormDataMappable>: BaseForm {
     
     public var data: M?
+    public var lastAssignIsMultiValue = false
 
     public init(_ viewController: UIViewController, data: M) {
         super.init(viewController)
@@ -25,17 +26,42 @@ public class Form<M: FormDataMappable>: BaseForm {
         data?.mapping(map: map)
     }
 
-    override func modelToControl(keys: [String]? = nil) {
+    open override func modelToControl(keys: [String]? = nil) {
         let map = FormDataMapping(form: self, mappingType: .toControl, availableKeys: keys)
         data?.mapping(map: map)
     }
     
-    open override func assignOptionValue(optionKey: String, for key: String) {
+    // set option value in model and update UI
+    open override func assignOptionValue(optionKey: String, for key: String) -> Bool {
         let map = FormDataMapping(form: self, mappingType: .assignOption, availableKeys: [key])
         map.optionValue = optionKey
         data?.mapping(map: map)
         modelToControl(keys: [key]) // update UI
+        lastAssignIsMultiValue = map.isMultiOptionValue
+        return map.isMultiOptionValue
     }
 
+    override public func showOptions(rowView: FormRowViewProtocol, optionKeys: [String]) {
+        guard let key = rowView.key else { fatalError("key not set") }
+        let optionsViewController = FormOptionsTableViewController(data: self.data!, key: key, optionKeys: optionKeys, labels: self.labels)
+        // chain valueChanged event to parent viewController
+        optionsViewController.form.subscribe(key: nil, event: .valueChanged) { _,_,_,_ in
+            self.signal(rowView: rowView, event: .valueChanged)
+        }
+        self.viewController?.showDirectionPopup(viewController: optionsViewController, sender: self.viewController!.view)
+        //self.viewController?.navigationController?.pushViewController(optionsViewController, animated: true)
+    }
+
+    /*
+    override public func showOptions(rowView: FormRowViewProtocol, optionKeys: [String]) {
+        guard let key = rowView.key else { fatalError("key not set") }
+        let optionsViewController = FormOptionsTableViewController(data: self.data!, key: key, optionKeys: optionKeys, labels: self.labels)
+        // chain valueChanged event to parent viewController
+        optionsViewController.form.subscribe(key: nil, event: .valueChanged) { _,_,_,_ in
+            self.signal(rowView: rowView, event: .valueChanged)
+        }
+        self.viewController?.navigationController?.pushViewController(optionsViewController, animated: true)
+    }
+ */
 }
 

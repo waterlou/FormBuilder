@@ -32,6 +32,7 @@ class LoginViewController: UIViewController {
         self.form = Form(self, data: data)
         
         FormRowViewOptions.setDefault(FormRowViewOptions(
+            minimumHeight: 66.0,
             minimumLabelWidth: 72.0
         ))
         
@@ -50,6 +51,9 @@ class LoginViewController: UIViewController {
         // setup stackview
         stackView.form = form
         stackView.setupForm()
+        
+        // add border to stackview
+        StackViewBorderView(drawBounds: true, drawSeparator: true).attach(to: stackView)
         
         // so it will enable scrollview when keyboard popup and need scroll
         form.watchKeyboardNotifications(constraint: scrollViewBottomConstraint)

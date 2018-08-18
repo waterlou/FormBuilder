@@ -19,3 +19,4 @@ public class FormNoData: FormDataMappable {
     public func mapping(map: FormDataMapping) {}
     public init() {}
 }
+

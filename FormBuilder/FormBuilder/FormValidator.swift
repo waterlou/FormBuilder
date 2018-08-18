@@ -14,7 +14,7 @@ public enum FormValidationError: Error {
     func descriptionString(key: String, label: String) -> String {
         switch self {
         case .required:
-            return "Require field"
+            return "Required field"
         }
     }
     

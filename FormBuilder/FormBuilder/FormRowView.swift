@@ -87,7 +87,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     
     open var isSelectable: Bool {
         switch type {
-        case .button, .optionValue:
+        case .button, .optionValue, .option:
             return true
         default:
             return false
@@ -201,14 +201,26 @@ open class FormRowView : UIView, FormRowViewProtocol {
     open func setup(form: BaseForm) {
         guard let key = key else { fatalError("key not set") }
         // you can setup label, icon
-        if let titleLabel = titleLabel {
-            if case .optionValue(let optionKey) = type {
-                titleLabel.text = form.label(for: optionKey)
-            }
-            else {
-                titleLabel.text = form.label(for: key)
-            }
+        let title: String?
+        let iconImage: UIImage?
+        if case .optionValue(let optionKey) = type {
+            title = form.label(for: optionKey)
         }
+        else {
+            title = form.label(for: key)
+        }
+        iconImage = form.icon(for: key)
+        
+        // set title and icon
+        titleLabel?.text = title
+        iconImageView?.image = iconImage
+        if let formTextField = editTextField as? UITextFieldFormProtocol {
+            // if textfield conform to protocol, try to set icon and title
+            formTextField.icon = form.icon(for: key)
+            formTextField.title = title
+        }
+        
+        // setup controls
         if let editTextField = editTextField, case .editText(let editType) = type {
             switch editType {
             case .currency:

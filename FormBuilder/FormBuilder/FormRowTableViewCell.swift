@@ -9,7 +9,4 @@
 import UIKit
 
 public class FormRowTableViewCell: UITableViewCell {
-    
-    var formRowViewProtocol: FormRowViewProtocol!
-    
 }

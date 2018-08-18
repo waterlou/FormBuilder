@@ -8,19 +8,16 @@
 
 import UIKit
 
-/*
 extension UIViewController {
 
-    func showDirectionPopup(_ sender: UIView) {
-        let controller = /* create UIViewController here */
-            controller.modalPresentationStyle = .popover
-        controller.preferredContentSize = CGSize(width: 300, height: 200)
-        let presentationController = controller.presentationController as! UIPopoverPresentationController
-        presentationController.sourceView = sender
-        presentationController.sourceRect = sender.bounds
-        presentationController.permittedArrowDirections = [.down, .up]
-        self.present(controller, animated: true)
+    func showDirectionPopup(viewController: UIViewController, sender: UIView) {
+        viewController.modalPresentationStyle = .pageSheet
+        viewController.preferredContentSize = CGSize(width: 300, height: 200)
+        //let presentationController = viewController.presentationController as! UIPopoverPresentationController
+        //presentationController.sourceView = sender
+        //presentationController.sourceRect = sender.bounds
+        //presentationController.permittedArrowDirections = [.down, .up]
+        self.present(viewController, animated: true)
     }
 
 }
-*/

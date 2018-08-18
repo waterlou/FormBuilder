@@ -31,7 +31,7 @@ open class FormTableViewController: UITableViewController {
         guard let key = rowView.key else { fatalError("key not set") }
         let cell = rowView.cell ?? rowView.cell(withIdentifier: key)
         //let cell = tableView.dequeueReusableCell(withIdentifier: key) as? FormRowTableViewCell ?? rowView.cell(withIdentifier: key)
-        cell.formRowViewProtocol.setup(form: form)  // setup control
+        rowView.setup(form: form)  // setup control
         form.modelToControl(keys: [key])
         return cell
     }

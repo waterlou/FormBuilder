@@ -11,9 +11,9 @@ import Foundation
 public class FormSubscription {
     
     public enum Event {
-        case setup                 // going to show the row
-        case becomeFirstResponder
-        case resignFirstResponder
+        case setup                  // going to show the row
+        case becomeFirstResponder   // not implmemented
+        case resignFirstResponder   // not implmemented
         
         case valueChanging
         case valueChanged

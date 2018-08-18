@@ -15,6 +15,7 @@ public class FormDataMapping {
     public internal(set) var currentValue: Any?
     public internal(set) var currentKey: String?
     public var optionValue: String?
+    public var isMultiOptionValue: Bool = false  // return by function
     
     enum MappingType {
         case fromControl
@@ -102,6 +103,7 @@ public class FormDataMapping {
                 newOptions.append(optionValue)
             }
             value = newOptions as! T
+            isMultiOptionValue = true
         case is String:
             value = optionValue as! T
         default:

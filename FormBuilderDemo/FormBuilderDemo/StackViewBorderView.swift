@@ -17,6 +17,15 @@ import UIKit
     @IBInspectable var borderColor: UIColor = .darkGray
     @IBInspectable var cornerRadius: CGFloat = 12.0
 
+    convenience init(drawBounds: Bool = true, drawSeparator: Bool = true, cornerRadius: CGFloat = 12.0) {
+        self.init(frame: .zero)
+        self.backgroundColor = .clear
+        self.isUserInteractionEnabled = false
+        self.drawBounds = drawBounds
+        self.drawSeparator = drawSeparator
+        self.cornerRadius = cornerRadius
+    }
+    
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
@@ -55,6 +64,19 @@ import UIKit
         }
         path.lineWidth = 0.5
         path.stroke()
+    }
+    
+    func attach(to stackView: UIStackView) {
+        guard let superview = stackView.superview else { print("stackview not added to view"); return }
+        superview.addSubview(self)
+        self.removeConstraints(self.constraints)    // remove all constraints
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.stackView = stackView
+        superview.addConstraints([
+            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: stackView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: stackView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: stackView, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: stackView, attribute: .trailing, multiplier: 1, constant: 0)])
     }
 
 }
