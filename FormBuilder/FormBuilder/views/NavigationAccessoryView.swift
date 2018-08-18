@@ -26,7 +26,6 @@ import Foundation
 
 /// Class for the navigation accessory view used with FormViewController's Keyboard
 open class NavigationAccessoryView: UIToolbar {
-    weak var baseForm: BaseForm?
     
     open var previousButton: UIBarButtonItem!
     open var nextButton: UIBarButtonItem!
