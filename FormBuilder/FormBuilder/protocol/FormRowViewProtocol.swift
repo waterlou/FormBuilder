@@ -8,7 +8,13 @@
 
 import UIKit
 
+public enum FormRowSetupType {
+    case table
+    case stackView
+}
+
 public protocol FormRowViewProtocolBase: class {
+    
     // key of the rowView
     var key: String? { get }
 
@@ -22,7 +28,7 @@ public protocol FormRowViewProtocolBase: class {
     var isSelectable: Bool { get }
     
     // setup rowView
-    func setup(form: BaseForm)
+    func setup(form: BaseForm, type: FormRowSetupType)
     
     // first responder
     var isFirstResponder: Bool { get }

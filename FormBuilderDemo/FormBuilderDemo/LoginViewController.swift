@@ -38,8 +38,8 @@ class LoginViewController: UIViewController {
         
         // define views
         form += [
-            ("email", .editText(editTextType: .email)),
-            ("password", .editText(editTextType: .password)),
+            ("email", .editText(type: .email)),
+            ("password", .editText(type: .password)),
         ]
         
         // define labels

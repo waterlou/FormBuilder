@@ -27,7 +27,7 @@ import UIKit
         
         // start setup stackview
         for rowView in form.rowViews {
-            rowView.setup(form: form)
+            rowView.setup(form: form, type: .stackView)
             //self.addArrangedSubview(rowView as! UIView)
             self.insertArrangedSubview(rowView as! UIView, at: index)
             index += 1

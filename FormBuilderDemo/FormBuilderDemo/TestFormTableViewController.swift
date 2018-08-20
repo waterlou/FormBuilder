@@ -70,18 +70,18 @@ class TestFormTableViewController: FormTableViewController {
         let form = Form<Data>(self, data: data)
         form += [   // define views
             ("section1", .sectionHeader),
-                ("field1", .simpleText),
+                ("textfield1", .editText(type: .text)),
                 ("switch1", .uiSwitch),
                 ("slider1", .slider(min: 0.0, max: 1.0)),
-                ("segment1",    .segmentedControl(options: ["male", "female"])),
+                ("segment1",    .segmentedControl(keys: ["male", "female"])),
             ("section2", .sectionHeader),
-                ("name", .editText(editTextType: .text)),
-                ("address", .editText(editTextType: .text)),
-                ("phone", .editText(editTextType: .text)),
+                ("name", .editText(type: .text)),
+                ("address", .editText(type: .text)),
+                ("phone", .editText(type: .text)),
                 ("field2", .simpleText),
                 ("field3", .simpleText),
                 ("button1", .button),
-                ("option3", .option(optionKeys: ["okey1", "okey2", "okey3", "okey4"])),
+                ("option3", .option(keys: ["okey1", "okey2", "okey3", "okey4"])),
                 ("note", .textView),
             ("singleOptionsSection", .sectionHeader),
                 ("option1", .optionValue(key: "value1")),
@@ -97,7 +97,7 @@ class TestFormTableViewController: FormTableViewController {
         
         // setup labels
         form.labels = [ // define labels
-            "name": "Name",
+            "section1": "Text Fields",
             "address": "Address",
             "phone": "Phone",
             "slider1": "Test Slider",

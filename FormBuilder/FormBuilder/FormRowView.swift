@@ -34,11 +34,11 @@ open class FormRowView : UIView, FormRowViewProtocol {
         case undefined
         case sectionHeader
         case simpleText // need refine, simple text with selection
-        case option(optionKeys: [String]) // <-- need finish this
-        case editText(editTextType: EditTextType)   // need refine
+        case option(keys: [String]) // <-- need finish this
+        case editText(type: EditTextType)   // need refine
         case uiSwitch       // DONE
         case slider(min: Float, max: Float) // DONE
-        case segmentedControl(options: [String])    // DONE
+        case segmentedControl(keys: [String])    // DONE
         case textView   // DONE
         case button // DONE
         case optionValue(key: String)
@@ -198,7 +198,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     
     
     // setup control before show up
-    open func setup(form: BaseForm) {
+    open func setup(form: BaseForm, type setupType: FormRowSetupType) {
         guard let key = key else { fatalError("key not set") }
         // you can setup label, icon
         let title: String?
