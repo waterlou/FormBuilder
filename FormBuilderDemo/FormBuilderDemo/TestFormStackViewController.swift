@@ -46,6 +46,7 @@ class TestFormStackViewController: UIViewController {
         // define views
         form += FormRowView.build(self, [
             ("field1",      .simpleText),
+            ("button1", .button),
             ("switch1",     .uiSwitch),
             ("slider1",     .slider(min: 0, max: 1)),
             ("segment1",    .segmentedControl(keys: ["male", "female"])),

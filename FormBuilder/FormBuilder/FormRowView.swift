@@ -31,7 +31,6 @@ open class FormRowView : UIView, FormRowViewProtocol {
             case currency(prefix: String)   // double currency
         }
         
-        case undefined
         case sectionHeader
         case simpleText // need refine, simple text with selection
         case option(keys: [String]) // <-- need finish this
@@ -56,7 +55,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         
         var xibIndex: FormBuilderXibIndex {
             switch self {
-            case .undefined, .sectionHeader, .simpleText:
+            case .sectionHeader, .simpleText:
                 return .label
             case .option, .optionValue:
                 return .labelAndOption   // not implemented yet
@@ -100,7 +99,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }
     
-    public private(set) var type: BasicType = .undefined
+    public private(set) var type: BasicType = .simpleText
     open var formTransform: FormTransformProtocol? = nil
     
     
@@ -267,6 +266,12 @@ open class FormRowView : UIView, FormRowViewProtocol {
             textView.delegate = form
             textView.inputAccessoryView = form.inputAccessoryView
         }
+        
+        if setupType == .stackView && self.isSelectable {
+            print("add tap gesture")
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleStackViewTapGesture(_:)))
+            self.addGestureRecognizer(tapGesture)
+        }
         form.signal(rowView: self, event: .setup)    // signal event
     }
 
@@ -339,4 +344,23 @@ open class FormRowView : UIView, FormRowViewProtocol {
             return nil
         }
     }       // get value from control
+}
+
+extension FormRowView {
+    
+    @IBAction func handleStackViewTapGesture(_ gestureRecognizer : UITapGestureRecognizer ) {
+        guard gestureRecognizer.view != nil else { return }
+        switch gestureRecognizer.state {
+        case .began:
+            print("began")
+        case .changed:
+            print("changed")
+        case .ended:
+            print("ended")
+        default:
+            print(gestureRecognizer.state)
+            break
+        }
+    }
+    
 }
