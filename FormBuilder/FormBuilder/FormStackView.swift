@@ -16,6 +16,8 @@ import UIKit
     // start add view from here, it is useful if you have subview already inside the stackview design in ib
     @IBInspectable var startIndex: Int = 0
     
+    @IBInspectable dynamic var selectedTintColor: UIColor = .lightGray // UI_APPEARANCE_SELECTOR, dynamic
+    
     public func setupForm() {
         //assert(form != nil, "Form not set in FormStackView")
         if form == nil { return }

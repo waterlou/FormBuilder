@@ -269,7 +269,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         
         if setupType == .stackView && self.isSelectable {
             print("add tap gesture")
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleStackViewTapGesture(_:)))
+            let tapGesture = UIButtonGestureRecognizer(target: self, action: #selector(handleStackViewTapGesture(_:)))
             self.addGestureRecognizer(tapGesture)
         }
         form.signal(rowView: self, event: .setup)    // signal event
@@ -357,8 +357,10 @@ extension FormRowView {
             print("changed")
         case .ended:
             print("ended")
+        case .cancelled:
+            print("cancalled")
         default:
-            print(gestureRecognizer.state)
+            print(gestureRecognizer.state.rawValue)
             break
         }
     }
