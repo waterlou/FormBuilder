@@ -10,16 +10,20 @@ import UIKit
 
 open class FormOptionsTableViewController<Data: FormDataMappable>: FormTableViewController {
 
+    var headerTitle: String?
     var key: String!
     var optionKeys: [String] = []
     
-    public init(data: Data, key: String, optionKeys: [String], labels: [String: String]?) {
+    public init(headerTitle: String?, data: Data, key: String, optionKeys: [String],
+                labels: [String: String]?, icons: [String: UIImage]?) {
         super.init(style: .grouped)
         
+        self.headerTitle = headerTitle
         self.key = key
         self.optionKeys = optionKeys
         let form = Form<Data>(self, data: data)
         form.labels = labels
+        form.icons = icons
         self.form = form
     }
     
@@ -42,7 +46,7 @@ open class FormOptionsTableViewController<Data: FormDataMappable>: FormTableView
     }
     
     open override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Options"
+        return headerTitle ?? "Options"
     }
     
     internal func doDismiss(animated: Bool) {

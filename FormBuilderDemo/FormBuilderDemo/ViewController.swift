@@ -60,7 +60,7 @@ class ViewController: FormTableViewController {
                 case "option":
                     let labels = ["option1": "Option 1", "option2": "Option 2"]
                     let optionKeys = ["option1", "option2"]
-                    let optionsViewController = FormOptionsTableViewController(data: data, key: "option", optionKeys: optionKeys, labels: labels)
+                    let optionsViewController = FormOptionsTableViewController(headerTitle: "Option", data: data, key: "option", optionKeys: optionKeys, labels: labels, icons: nil)
                     self.navigationController?.pushViewController(optionsViewController, animated: true)
                 default:
                     break

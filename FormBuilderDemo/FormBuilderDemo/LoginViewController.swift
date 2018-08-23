@@ -40,6 +40,7 @@ class LoginViewController: UIViewController {
         form += [
             ("email", .editText(type: .email)),
             ("password", .editText(type: .password)),
+            ("test", .button),
         ]
         
         // define labels

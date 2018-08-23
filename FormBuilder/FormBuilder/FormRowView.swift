@@ -58,7 +58,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
             case .sectionHeader, .simpleText:
                 return .label
             case .option, .optionValue:
-                return .labelAndOption   // not implemented yet
+                return .labelAndOption
             case .button:
                 return .button
             case .editText:
@@ -212,7 +212,16 @@ open class FormRowView : UIView, FormRowViewProtocol {
         
         // set title and icon
         titleLabel?.text = title
-        iconImageView?.image = iconImage
+        if let iconImageView = iconImageView {
+            if let iconImage = iconImage {
+                iconImageView.image = iconImage
+                iconImageView.isHidden = false
+            }
+            else {
+                iconImageView.image = nil
+                iconImageView.isHidden = true
+            }
+        }
         if let formTextField = editTextField as? UITextFieldFormProtocol {
             // if textfield conform to protocol, try to set icon and title
             formTextField.icon = form.icon(for: key)
@@ -348,16 +357,25 @@ open class FormRowView : UIView, FormRowViewProtocol {
 
 extension FormRowView {
     
-    @IBAction func handleStackViewTapGesture(_ gestureRecognizer : UITapGestureRecognizer ) {
+    @IBAction func handleStackViewTapGesture(_ gestureRecognizer : UIButtonGestureRecognizer ) {
         guard gestureRecognizer.view != nil else { return }
         switch gestureRecognizer.state {
         case .began:
+            self.backgroundColor = .lightGray
             print("began")
         case .changed:
+            if gestureRecognizer.touchInside {
+                self.backgroundColor = .lightGray
+            }
+            else {
+                self.backgroundColor = .clear
+            }
             print("changed")
         case .ended:
+            self.backgroundColor = .clear
             print("ended")
         case .cancelled:
+            self.backgroundColor = .clear
             print("cancalled")
         default:
             print(gestureRecognizer.state.rawValue)

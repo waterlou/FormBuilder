@@ -55,39 +55,45 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glQ-0F-2Pv">
-                    <rect key="frame" x="12" y="8" width="42" height="72"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABC" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lm3-ok-RAx">
-                    <rect key="frame" x="333" y="8" width="30" height="72"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" name="selectedMenuItemColor" catalog="System" colorSpace="catalog"/>
-                    <nil key="highlightedColor"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="text" value=""/>
-                    </userDefinedRuntimeAttributes>
-                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Yo7-YP-4Kn">
+                    <rect key="frame" x="12" y="8" width="351" height="72"/>
+                    <subviews>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pzi-el-Zbm">
+                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="72"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glQ-0F-2Pv">
+                            <rect key="frame" x="0.0" y="0.0" width="171.5" height="72"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABC" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lm3-ok-RAx">
+                            <rect key="frame" x="179.5" y="0.0" width="171.5" height="72"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" name="selectedMenuItemColor" catalog="System" colorSpace="catalog"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="text" value=""/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                    </subviews>
+                </stackView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Jzt-lz-s19" firstAttribute="bottom" secondItem="glQ-0F-2Pv" secondAttribute="bottom" constant="8" id="FlB-ms-JiF"/>
-                <constraint firstItem="Jzt-lz-s19" firstAttribute="bottom" secondItem="Lm3-ok-RAx" secondAttribute="bottom" constant="8" id="Igf-AT-xNK"/>
-                <constraint firstItem="Lm3-ok-RAx" firstAttribute="top" secondItem="Jzt-lz-s19" secondAttribute="top" constant="8" id="Oc4-KH-clS"/>
-                <constraint firstItem="Jzt-lz-s19" firstAttribute="trailing" secondItem="Lm3-ok-RAx" secondAttribute="trailing" constant="12" id="Wvw-J8-cLQ"/>
-                <constraint firstItem="Lm3-ok-RAx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="glQ-0F-2Pv" secondAttribute="trailing" constant="8" id="fOt-NH-2lj"/>
-                <constraint firstItem="glQ-0F-2Pv" firstAttribute="leading" secondItem="Jzt-lz-s19" secondAttribute="leading" constant="12" id="xEg-d1-01b"/>
-                <constraint firstItem="glQ-0F-2Pv" firstAttribute="top" secondItem="Jzt-lz-s19" secondAttribute="top" constant="8" id="xPr-Gd-eh2"/>
+                <constraint firstItem="Jzt-lz-s19" firstAttribute="bottom" secondItem="Yo7-YP-4Kn" secondAttribute="bottom" constant="8" id="3zg-ol-h3a"/>
+                <constraint firstItem="Jzt-lz-s19" firstAttribute="trailing" secondItem="Yo7-YP-4Kn" secondAttribute="trailing" constant="12" id="53t-eU-CBz"/>
+                <constraint firstItem="Yo7-YP-4Kn" firstAttribute="leading" secondItem="Jzt-lz-s19" secondAttribute="leading" constant="12" id="BxA-mi-ZqV"/>
+                <constraint firstItem="Yo7-YP-4Kn" firstAttribute="top" secondItem="Bb6-dQ-1fE" secondAttribute="top" constant="8" id="nUg-34-0Ov"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="Jzt-lz-s19"/>
             <connections>
                 <outlet property="descriptionLabel" destination="Lm3-ok-RAx" id="tYy-ya-TIv"/>
+                <outlet property="iconImageView" destination="Pzi-el-Zbm" id="H1V-82-9lF"/>
                 <outlet property="titleLabel" destination="glQ-0F-2Pv" id="t08-0x-RDe"/>
             </connections>
-            <point key="canvasLocation" x="-106" y="-166"/>
+            <point key="canvasLocation" x="-106.5" y="-166"/>
         </view>
         <view contentMode="scaleToFill" id="FDr-1Q-Vav" userLabel="Form Row View (2. Button)" customClass="FormRowView" customModule="FormBuilder" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
@@ -124,8 +130,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UmK-be-EdN">
-                    <rect key="frame" x="70" y="29" width="293" height="30"/>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UmK-be-EdN">
+                    <rect key="frame" x="70" y="0.0" width="293" height="88"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
@@ -133,11 +139,13 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="1al-vB-uwo" firstAttribute="bottom" secondItem="UmK-be-EdN" secondAttribute="bottom" id="52Q-7K-4O0"/>
                 <constraint firstItem="36I-JF-5Ts" firstAttribute="leading" secondItem="1al-vB-uwo" secondAttribute="leading" constant="12" id="Eo7-zm-gX8"/>
                 <constraint firstItem="36I-JF-5Ts" firstAttribute="top" secondItem="1al-vB-uwo" secondAttribute="top" constant="8" id="X78-Xv-SYn"/>
                 <constraint firstItem="UmK-be-EdN" firstAttribute="leading" secondItem="36I-JF-5Ts" secondAttribute="trailing" constant="16" id="XsU-8p-uic"/>
                 <constraint firstItem="1al-vB-uwo" firstAttribute="trailing" secondItem="UmK-be-EdN" secondAttribute="trailing" constant="12" id="aar-wV-7tV"/>
                 <constraint firstItem="1al-vB-uwo" firstAttribute="bottom" secondItem="36I-JF-5Ts" secondAttribute="bottom" constant="8" id="pOK-9w-0EL"/>
+                <constraint firstItem="UmK-be-EdN" firstAttribute="top" secondItem="1al-vB-uwo" secondAttribute="top" id="xuF-0A-8J0"/>
                 <constraint firstItem="UmK-be-EdN" firstAttribute="centerY" secondItem="CQn-kE-qfU" secondAttribute="centerY" id="ygW-jm-1zb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
