@@ -204,11 +204,12 @@ open class FormRowView : UIView, FormRowViewProtocol {
         let iconImage: UIImage?
         if case .optionValue(let optionKey) = type {
             title = form.label(for: optionKey)
+            iconImage = form.icon(for: optionKey)
         }
         else {
             title = form.label(for: key)
+            iconImage = form.icon(for: key)
         }
-        iconImage = form.icon(for: key)
         
         // set title and icon
         titleLabel?.text = title

@@ -110,6 +110,29 @@ public class FormDataMapping {
             fatalError("unsupported type")
         }
     }
+    
+    // for assign option key to variable in options
+    func assignOption<T>(_ value: inout T?) {
+        guard let optionValue = optionValue else { fatalError("must set optionValue before call") }
+        guard let key = currentKey else { fatalError("key not found") }
+        if let availableKeys = availableKeys, !availableKeys.contains(key) { return }
+        switch value {
+        case let options as [String]:
+            var newOptions = options
+            if let index = options.index(of: optionValue) {
+                newOptions.remove(at: index)
+            }
+            else {
+                newOptions.append(optionValue)
+            }
+            value = newOptions as? T
+            isMultiOptionValue = true
+        case is String:
+            value = optionValue as? T
+        default:
+            fatalError("unsupported type")
+        }
+    }
 
 }
 
