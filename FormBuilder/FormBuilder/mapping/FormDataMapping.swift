@@ -25,7 +25,7 @@ public class FormDataMapping {
     let form: BaseForm
     let mappingType: MappingType
     let availableKeys: [String]?   // restrict to these keys
-
+    
     init(form: BaseForm, mappingType: MappingType, availableKeys: [String]? = nil) {
         self.form = form
         self.mappingType = mappingType
@@ -87,7 +87,7 @@ public class FormDataMapping {
         if let availableKeys = availableKeys, !availableKeys.contains(key) { return }
         form.updateControl(value: value, for: key)
     }
-
+    
     // for assign option key to variable in options
     func assignOption<T>(_ value: inout T) {
         guard let optionValue = optionValue else { fatalError("must set optionValue before call") }
@@ -112,14 +112,14 @@ public class FormDataMapping {
     }
     
     // for assign option key to variable in options
-    func assignOption<T>(_ value: inout T?) {
+    func optionalAssignOption<T>(_ value: inout T?) {
         guard let optionValue = optionValue else { fatalError("must set optionValue before call") }
         guard let key = currentKey else { fatalError("key not found") }
         if let availableKeys = availableKeys, !availableKeys.contains(key) { return }
-        switch value {
-        case let options as [String]?:
+        // switch not working when null, we compare the class directly
+        if T.self == [String].self {
             var newOptions: [String]
-            if let options = options {
+            if let options = value as? [String] {
                 newOptions = options
                 if let index = options.index(of: optionValue) {
                     newOptions.remove(at: index)
@@ -133,31 +133,18 @@ public class FormDataMapping {
             }
             value = newOptions as? T
             isMultiOptionValue = true
-        case is String?:
+        }
+        else if T.self == String.self {
             value = optionValue as? T
-        default:
+        }
+        else {
             fatalError("unsupported type")
         }
     }
-
+    
 }
 
 infix operator <-
-
-// optional
-public func <- <T>(left: inout T?, right: FormDataMapping) {
-    switch right.mappingType {
-    case .fromControl:   // from control to variable
-        if let value: T = right.value() {
-            left = value
-        }
-    case .toControl:   // from variable to control
-        right.setValue(left)
-    case .assignOption:
-        right.assignOption(&left)
-    }
-    
-}
 
 // non-optional
 public func <- <T>(left: inout T, right: FormDataMapping) {
@@ -173,3 +160,17 @@ public func <- <T>(left: inout T, right: FormDataMapping) {
     }
 }
 
+// optional
+public func <- <T>(left: inout T?, right: FormDataMapping) {
+    switch right.mappingType {
+    case .fromControl:   // from control to variable
+        if let value: T = right.value() {
+            left = value
+        }
+    case .toControl:   // from variable to control
+        right.setValue(left)
+    case .assignOption:
+        right.optionalAssignOption(&left)
+    }
+    
+}
