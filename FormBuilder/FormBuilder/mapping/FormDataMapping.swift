@@ -117,17 +117,23 @@ public class FormDataMapping {
         guard let key = currentKey else { fatalError("key not found") }
         if let availableKeys = availableKeys, !availableKeys.contains(key) { return }
         switch value {
-        case let options as [String]:
-            var newOptions = options
-            if let index = options.index(of: optionValue) {
-                newOptions.remove(at: index)
+        case let options as [String]?:
+            var newOptions: [String]
+            if let options = options {
+                newOptions = options
+                if let index = options.index(of: optionValue) {
+                    newOptions.remove(at: index)
+                }
+                else {
+                    newOptions.append(optionValue)
+                }
             }
             else {
-                newOptions.append(optionValue)
+                newOptions = [optionValue]
             }
             value = newOptions as? T
             isMultiOptionValue = true
-        case is String:
+        case is String?:
             value = optionValue as? T
         default:
             fatalError("unsupported type")
