@@ -394,6 +394,18 @@ extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
             self.signal(rowView: rowView, event: .valueChanging)
         }
     }
+    
+    @objc public func textEditingDidBegin(sender: UIControl) {
+        if let rowView = sender.parentFormRowView {
+            self.signal(rowView: rowView, event: .becomeFirstResponder)
+        }
+    }
+    
+    @objc public func textEditingDidEnd(sender: UIControl) {
+        if let rowView = sender.parentFormRowView {
+            self.signal(rowView: rowView, event: .resignFirstResponder)
+        }
+    }
 
     @objc public func controlValueChanged(sender: UIControl) {
         if let rowView = sender.parentFormRowView, let key = rowView.key {

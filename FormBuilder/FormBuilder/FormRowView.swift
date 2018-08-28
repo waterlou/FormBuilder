@@ -257,6 +257,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
             
             editTextField.addTarget(form, action: #selector(BaseForm.textEditingChanged(sender:)), for: .editingChanged)
             editTextField.addTarget(form, action: #selector(BaseForm.controlValueChanged(sender:)), for: .valueChanged)
+            editTextField.addTarget(form, action: #selector(BaseForm.textEditingDidBegin(sender:)), for: .editingDidBegin)
+            editTextField.addTarget(form, action: #selector(BaseForm.textEditingDidEnd(sender:)), for: .editingDidEnd)
             editTextField.inputAccessoryView = form.inputAccessoryView  // switching field
         }
         if let uiSwitch = uiSwitch {

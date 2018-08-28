@@ -39,6 +39,14 @@ public class Form<M: FormDataMappable>: BaseForm {
         subscriptions.append(FormSubscription(key: key, event: event, closure: closure))
     }
     
+    // subscribe some event to same closure
+    public func subscribe(key: String?, events: [Event], closure: @escaping FormSubscription.Closure) {
+        events.forEach { event in
+            subscriptions.append(FormSubscription(key: key, event: event, closure: closure))
+        }
+    }
+
+    
     // signal a event
     public override func signal(rowView: FormRowViewProtocol, event: Event) {
         guard let key = rowView.key else { fatalError("key not set") }
