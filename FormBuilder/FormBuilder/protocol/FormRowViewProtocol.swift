@@ -22,7 +22,7 @@ public protocol FormRowViewProtocolBase: class {
     var isSectionHeader: Bool { get }
     
     // display error
-    var errors: [Error]? { get set }
+    func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?);
     
     // is it selectable, for tableView
     var isSelectable: Bool { get }

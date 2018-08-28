@@ -53,7 +53,6 @@ open class BaseForm: NSObject {
     var currentKeyboardHeight: CGFloat = 0
 
     internal class BaseFormSubscription {
-        
         public typealias Closure = (BaseForm, FormRowViewProtocol, Event) -> ()
         
         let key: String?
@@ -85,11 +84,16 @@ open class BaseForm: NSObject {
         }
     }
     
-    
-    internal func setupValidator() {
+    public func subscribeForValidator() {
+        self._subscribe(key: nil, event: .valueChanging) { [unowned self] form, rowView, _ in
+            guard let key = rowView.key, let validate = self.validates?[key] else { return }
+            let value = self.valueFromControl(for: key)
+            rowView.setErrors(form: self, errors: self.validator.validate(value, for: key, types: validate))
+        }
         self._subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let value = self.valueFromControl(for: key), let validate = self.validates?[key] else { return }
-            rowView.errors = self.validator.validate(value, for: key, types: validate)
+            guard let key = rowView.key, let validate = self.validates?[key] else { return }
+            let value = self.valueFromControl(for: key)
+            rowView.setErrors(form: self, errors: self.validator.validate(value, for: key, types: validate))
         }
     }
     

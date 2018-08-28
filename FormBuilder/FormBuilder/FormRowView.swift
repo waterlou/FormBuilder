@@ -93,9 +93,13 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }
     
-    open var errors: [Error]? {
-        didSet {
-            // response error to screen
+    open func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?) {
+        if let errors = errors {
+            self.errorLabel?.isHidden = false
+            self.errorLabel?.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key!) }).joined(separator: "\n")
+        }
+        else {
+            self.errorLabel?.isHidden = true
         }
     }
     
@@ -114,7 +118,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
     @IBOutlet open var slider: UISlider?
     @IBOutlet open var stepper: UIStepper?
     @IBOutlet open var textView: UITextView?
- 
+    @IBOutlet open var errorLabel: UILabel?
+    
     // tranform from type to view
     internal class func rowView(_ owner: Any, key: String, type: BasicType, options: FormRowViewOptions? = nil) -> FormRowView {
         let bundle = options?.bundle ?? Bundle(for: FormRowView.self)
@@ -138,6 +143,9 @@ open class FormRowView : UIView, FormRowViewProtocol {
         if let textAlignment = options?.textAlignment {
             view.editTextField?.textAlignment = textAlignment
         }
+        
+        // hide error by default
+        view.errorLabel?.isHidden = true
         
         // add some constraints
         if let minimumHeight = options?.minimumHeight {

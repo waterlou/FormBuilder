@@ -85,6 +85,7 @@
 		4908E29B2122759F0020A265 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				4984FA00212AB3D7008E4BE0 /* UIButtonGestureRecognizer.swift */,
 				49B75B4C20FC8C63004A2A43 /* NavigationAccessoryView.swift */,
 			);
 			path = views;
@@ -135,10 +136,10 @@
 				4923100220F83980001EE3B0 /* FormRowTableViewCell.swift */,
 				4923100420F83C45001EE3B0 /* FormTableViewController.swift */,
 				4923100620F83C5A001EE3B0 /* FormStackView.swift */,
+				4908E2AB21246FAC0020A265 /* FormOptionsTableViewController.swift */,
 				4973012720FDC482003F89C1 /* FormBuilderBasic.xib */,
 				4908E29E2123BA3B0020A265 /* FormBuilderBasicsStackView.xib */,
 				49B75B4E20FC8CC7004A2A43 /* Assets.xcassets */,
-				4908E2AB21246FAC0020A265 /* FormOptionsTableViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -172,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				4984F9FE2126BD23008E4BE0 /* dump.swift */,
-				4984FA00212AB3D7008E4BE0 /* UIButtonGestureRecognizer.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";

@@ -8,13 +8,17 @@
 
 import UIKit
 
-public enum FormValidationError: Error {
+public protocol FormValidationErrorProtocol {
+    func errorDescriptionString(form: BaseForm, key: String) -> String;
+}
+
+public enum FormValidationError: Error, FormValidationErrorProtocol {
     case required
     
-    func descriptionString(key: String, label: String) -> String {
+    public func errorDescriptionString(form: BaseForm, key: String) -> String {
         switch self {
         case .required:
-            return "Required field"
+            return "\(form.label(for: key)) is required."
         }
     }
     
@@ -33,7 +37,24 @@ open class FormValidator {
         //case passwordStrength(passwordRequirements: [PasswordRequirement])
     }
     
-    func validate(_ value: Any, for key: String, types: [ValidateType]) -> [FormValidationError]? {
-        return nil
+    func validate(_ value: Any?, for key: String, types: [ValidateType]) -> [FormValidationError]? {
+        var errors: [FormValidationError] = []
+        types.forEach { type in
+            switch type {
+            case .required:
+                if value == nil {
+                    errors.append(.required)
+                }
+                else if let string = value as? String, string.trimmingCharacters(in: .whitespaces).isEmpty {
+                    errors.append(.required)
+                }
+            default:
+                break
+            }
+        }
+        if errors.count == 0 {
+            return nil
+        }
+        return errors
     }
 }

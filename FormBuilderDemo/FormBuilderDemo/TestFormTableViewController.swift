@@ -24,16 +24,16 @@ class TestFormTableViewController: FormTableViewController {
         var option3: String = ""
 
         func mapping(map: FormDataMapping) {
-            name    <- map["name"]
-            address <- map["address"]
-            phone   <- map["phone"]
-            switch1 <- map["switch1"]
-            slider1 <- map["slider1"]
-            segment1 <- map["segment1"]
-            note <- map["note"]
-            option1 <- map["option1"]
-            option2 <- map["option2"]
-            option3 <- map["option3"]
+            name        <- map["name"]
+            address     <- map["address"]
+            phone       <- map["phone"]
+            switch1     <- map["switch1"]
+            slider1     <- map["slider1"]
+            segment1    <- map["segment1"]
+            note        <- map["note"]
+            option1     <- map["option1"]
+            option2     <- map["option2"]
+            option3     <- map["option3"]
         }
         
         var debugDescription: String {
@@ -106,6 +106,12 @@ class TestFormTableViewController: FormTableViewController {
             "segment1": "Gender",
             "button1": "Click Me",
         ]
+        
+        form.validates = [
+            "address": [.required]
+        ]
+        form.subscribeForValidator()
+
         
         // button action
         form.subscribe(key: "button1", event: .buttonClicked) { form, rowView, event, data in
