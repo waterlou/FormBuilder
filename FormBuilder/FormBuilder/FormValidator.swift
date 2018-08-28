@@ -21,8 +21,8 @@ public enum FormValidationError: Error, FormValidationErrorProtocol {
             return "\(form.label(for: key)) is required."
         }
     }
-    
 }
+
 
 open class FormValidator {
     public enum ValidateType {

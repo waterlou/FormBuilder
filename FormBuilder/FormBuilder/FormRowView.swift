@@ -93,7 +93,9 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }
     
+    public var errors: [FormValidationErrorProtocol]?
     open func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?) {
+        self.errors = errors
         if let errors = errors {
             self.errorLabel?.isHidden = false
             self.errorLabel?.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key!) }).joined(separator: "\n")

@@ -22,6 +22,7 @@ public protocol FormRowViewProtocolBase: class {
     var isSectionHeader: Bool { get }
     
     // display error
+    var errors: [FormValidationErrorProtocol]? { get }
     func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?);
     
     // is it selectable, for tableView
@@ -45,6 +46,7 @@ public protocol FormRowViewProtocolBase: class {
 // FormRowViewProtocol restrict to UIView only
 public protocol FormRowViewProtocol: FormRowViewProtocolBase where Self: UIView {
 }
+
 
 extension FormRowViewProtocol where Self: UIView {
     

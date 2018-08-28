@@ -59,7 +59,7 @@ class TestFormTableViewController: FormTableViewController {
         // form options
         FormRowViewOptions.setDefault(FormRowViewOptions(
             titleFont: UIFont.systemFont(ofSize: 13),
-            minimumHeight: 66.0,
+            minimumHeight: 44.0,
             minimumLabelWidth: 66.0,
             editTextFont: UIFont.systemFont(ofSize: 17),
             textBorderStyle: UITextBorderStyle.none,

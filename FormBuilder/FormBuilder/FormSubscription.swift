@@ -13,6 +13,7 @@ public enum Event {
     case becomeFirstResponder   // not implmemented
     case resignFirstResponder   // not implmemented
     
+    // control events
     case valueChanging
     case valueChanged
     case buttonClicked

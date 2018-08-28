@@ -84,16 +84,38 @@ open class BaseForm: NSObject {
         }
     }
     
+    private func compareErrors(_ errors1: [FormValidationErrorProtocol]?, _ errors2: [FormValidationErrorProtocol]?) -> Bool {
+        if errors1 == nil && errors2 != nil {
+            return false
+        }
+        if errors1 != nil && errors2 == nil {
+            return false
+        }
+        // TODO: quick hack, should fix it
+        if let errors1 = errors1 as? [FormValidationError], let errors2 = errors2 as? [FormValidationError] {
+            return errors1 == errors2
+        }
+        return true // both nil
+    }
+    
     public func subscribeForValidator() {
         self._subscribe(key: nil, event: .valueChanging) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let validate = self.validates?[key] else { return }
+            guard let key = rowView.key, let validates = self.validates?[key] else { return }
             let value = self.valueFromControl(for: key)
-            rowView.setErrors(form: self, errors: self.validator.validate(value, for: key, types: validate))
+            let newErrors = self.validator.validate(value, for: key, types: validates)
+            if !self.compareErrors(newErrors, rowView.errors) {
+                rowView.setErrors(form: self, errors: newErrors)
+                form.signal(rowView: rowView, event: .validationStatusChanged)
+            }
         }
         self._subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let validate = self.validates?[key] else { return }
+            guard let key = rowView.key, let validates = self.validates?[key] else { return }
             let value = self.valueFromControl(for: key)
-            rowView.setErrors(form: self, errors: self.validator.validate(value, for: key, types: validate))
+            let newErrors = self.validator.validate(value, for: key, types: validates)
+            if !self.compareErrors(newErrors, rowView.errors) {
+                rowView.setErrors(form: self, errors: newErrors)
+                form.signal(rowView: rowView, event: .validationStatusChanged)
+            }
         }
     }
     

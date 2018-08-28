@@ -12,10 +12,25 @@ open class FormTableViewController: UITableViewController {
 
     public var form: BaseForm!
     
+    private var didSubscribe = false
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
         tableView.rowHeight = UITableViewAutomaticDimension // auto layout
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !didSubscribe {
+            didSubscribe = true
+            // recalc height when validation status changed
+            form._subscribe(key: nil, event: .validationStatusChanged) { [unowned self] form, rowView, event in
+                // hacky calls to renew all visible cell heights
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }
+        }
     }
 
     override open func numberOfSections(in tableView: UITableView) -> Int {
