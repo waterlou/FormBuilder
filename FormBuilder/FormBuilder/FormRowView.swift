@@ -246,7 +246,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
             case .currency:
                 editTextField.keyboardType = .decimalPad
             case .phone:
-                editTextField.keyboardType = .namePhonePad
+                editTextField.keyboardType = .phonePad
             case .number, .integer:
                 editTextField.keyboardType = .numberPad
             case .text:
