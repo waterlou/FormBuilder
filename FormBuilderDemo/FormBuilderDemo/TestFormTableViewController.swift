@@ -51,7 +51,7 @@ class TestFormTableViewController: FormTableViewController {
 
         // setup data
         data.name = "Lou Chi Wai"
-        data.address = "Golden"
+        //data.address = "Golden"
         data.phone = "26287519"
         data.slider1 = 0.2
         data.segment1 = "male"
@@ -107,10 +107,10 @@ class TestFormTableViewController: FormTableViewController {
             "button1": "Click Me",
         ]
         
-        form.validates = [
-            "address": [.required]
-        ]
-        form.subscribeForValidator()
+        form.subscribeForValidator(validates: [
+                "address": [.required]
+            ]
+        )
 
         
         // button action

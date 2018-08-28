@@ -73,7 +73,13 @@ open class BaseForm: NSObject {
     internal func _subscribe(key: String?, event: Event, closure: @escaping BaseFormSubscription.Closure) {
         baseSubscriptions.append(BaseFormSubscription(key: key, event: event, closure: closure))
     }
-  
+
+    internal func _subscribe(key: String?, events: [Event], closure: @escaping BaseFormSubscription.Closure) {
+        events.forEach { event in
+            baseSubscriptions.append(BaseFormSubscription(key: key, event: event, closure: closure))
+        }
+    }
+
     // signal a event
     public func signal(rowView: FormRowViewProtocol, event: Event) {
         guard let key = rowView.key else { fatalError("key not set") }
@@ -98,29 +104,17 @@ open class BaseForm: NSObject {
         return true // both nil
     }
     
-    public func subscribeForValidator() {
-        self._subscribe(key: nil, event: .valueChanging) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let validates = self.validates?[key] else { return }
+    public func subscribeForValidator(validator: FormValidator = FormValidator(), validates: [String: [FormValidator.ValidateType]]) {
+        self._subscribe(key: nil, events: [.valueChanging, .valueChanged, .resignFirstResponder]) { [unowned self] form, rowView, _ in
+            guard let key = rowView.key, let validates = validates[key] else { return }
             let value = self.valueFromControl(for: key)
-            let newErrors = self.validator.validate(value, for: key, types: validates)
-            if !self.compareErrors(newErrors, rowView.errors) {
-                rowView.setErrors(form: self, errors: newErrors)
-                form.signal(rowView: rowView, event: .validationStatusChanged)
-            }
-        }
-        self._subscribe(key: nil, event: .valueChanged) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let validates = self.validates?[key] else { return }
-            let value = self.valueFromControl(for: key)
-            let newErrors = self.validator.validate(value, for: key, types: validates)
+            let newErrors = validator.validate(value, for: key, types: validates)
             if !self.compareErrors(newErrors, rowView.errors) {
                 rowView.setErrors(form: self, errors: newErrors)
                 form.signal(rowView: rowView, event: .validationStatusChanged)
             }
         }
     }
-    
-    public var validator = FormValidator()      // default validator, user can override a custom one
-    public var validates: [String: [FormValidator.ValidateType]]? // key -> validation rules
     
     // generic keyboard accessory view that move between fields
     lazy var inputAccessoryView: NavigationAccessoryView? = {

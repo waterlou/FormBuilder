@@ -37,7 +37,10 @@ open class FormValidator {
         //case passwordStrength(passwordRequirements: [PasswordRequirement])
     }
     
-    func validate(_ value: Any?, for key: String, types: [ValidateType]) -> [FormValidationError]? {
+    public init() {
+    }
+    
+    open func validate(_ value: Any?, for key: String, types: [ValidateType]) -> [FormValidationError]? {
         var errors: [FormValidationError] = []
         types.forEach { type in
             switch type {

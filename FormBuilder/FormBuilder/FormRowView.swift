@@ -24,6 +24,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     public enum BasicType {
         public enum EditTextType {
             case text       // normal text
+            case phone      // phone number
             case email      // email address
             case password   // password
             case integer    // integer number
@@ -244,6 +245,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
             switch editType {
             case .currency:
                 editTextField.keyboardType = .decimalPad
+            case .phone:
+                editTextField.keyboardType = .namePhonePad
             case .number, .integer:
                 editTextField.keyboardType = .numberPad
             case .text:
