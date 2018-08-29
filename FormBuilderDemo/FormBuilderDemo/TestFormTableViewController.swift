@@ -51,7 +51,7 @@ class TestFormTableViewController: FormTableViewController {
 
         // setup data
         data.name = "Lou Chi Wai"
-        //data.address = "Golden"
+        data.address = "Golden"
         data.phone = "26287519"
         data.slider1 = 0.2
         data.segment1 = "male"
@@ -107,8 +107,16 @@ class TestFormTableViewController: FormTableViewController {
             "button1": "Click Me",
         ]
         
+        let customValidation = FormValidator.ValidateType.custom( closure: { value, key in
+            if let value = value as? String {
+                if value.count % 2 == 0 {
+                    return "Even"
+                }
+            }
+            return nil
+            })
         form.subscribeForValidator(validates: [
-                "address": [.required]
+                "address": [.required, customValidation]
             ]
         )
 

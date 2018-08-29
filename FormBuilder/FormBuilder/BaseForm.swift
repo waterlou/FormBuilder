@@ -184,7 +184,7 @@ open class BaseForm: NSObject {
 
     
     // control -> model binding
-    internal func controlToModel(keys: [String]? = nil) {
+    open func controlToModel(keys: [String]? = nil) {
         fatalError("not implemented")
     }
     
