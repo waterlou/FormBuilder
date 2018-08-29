@@ -66,7 +66,7 @@ public class Form<M: FormDataMappable>: BaseForm {
     }
     
     // two ways binding
-    override func controlToModel(keys: [String]? = nil) {
+    open override func controlToModel(keys: [String]? = nil) {
         let map = FormDataMapping(form: self, mappingType: .fromControl, availableKeys: keys)
         data.mapping(map: map)
     }
