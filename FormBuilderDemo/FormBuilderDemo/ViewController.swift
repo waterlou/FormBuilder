@@ -35,6 +35,7 @@ class ViewController: FormTableViewController {
             ("scrollstackview", .button),
             ("login", .button),
             ("option", .button),
+            ("showhide", .button),
         ]
         
         // setup labels
@@ -43,28 +44,29 @@ class ViewController: FormTableViewController {
             "stackview": "Stack View",
             "scrollstackview": "Scroll Stack View",
             "login": "Login Example",
+            "showhide": "Show Hide Example",
         ]
         
         // subscribe actions
         form.subscribe(key: nil, event: .buttonClicked) { [unowned self] form, rowView, event, data in
-            if let key = rowView.key {
-                switch key {
-                case "tableview":
-                    self.performSegue(withIdentifier: "simpleTableViewSegue", sender: nil)
-                case "stackview":
-                    self.performSegue(withIdentifier: "simpleStackViewSegue", sender: nil)
-                case "scrollstackview":
-                    self.performSegue(withIdentifier: "scrollableStackViewSegue", sender: nil)
-                case "login":
-                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
-                case "option":
-                    let labels = ["option1": "Option 1", "option2": "Option 2"]
-                    let optionKeys = ["option1", "option2"]
-                    let optionsViewController = FormOptionsTableViewController(headerTitle: "Option", data: data, key: "option", optionKeys: optionKeys, labels: labels, icons: nil)
-                    self.navigationController?.pushViewController(optionsViewController, animated: true)
-                default:
-                    break
-                }
+            switch rowView.key {
+            case "tableview":
+                self.performSegue(withIdentifier: "simpleTableViewSegue", sender: nil)
+            case "stackview":
+                self.performSegue(withIdentifier: "simpleStackViewSegue", sender: nil)
+            case "scrollstackview":
+                self.performSegue(withIdentifier: "scrollableStackViewSegue", sender: nil)
+            case "login":
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            case "showhide":
+                self.performSegue(withIdentifier: "showHideSegue", sender: nil)
+            case "option":
+                let labels = ["option1": "Option 1", "option2": "Option 2"]
+                let optionKeys = ["option1", "option2"]
+                let optionsViewController = FormOptionsTableViewController(headerTitle: "Option", data: data, key: "option", optionKeys: optionKeys, labels: labels, icons: nil)
+                self.navigationController?.pushViewController(optionsViewController, animated: true)
+            default:
+                break
             }
         }
         

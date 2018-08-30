@@ -34,6 +34,7 @@
                         <segue destination="Gzw-Y1-lQH" kind="show" identifier="scrollableStackViewSegue" id="y13-lN-AsY"/>
                         <segue destination="xS6-To-hdP" kind="show" identifier="simpleStackViewSegue" id="S8x-Ug-SDb"/>
                         <segue destination="IQT-y2-Ane" kind="show" identifier="loginSegue" id="9Xf-c0-Uaf"/>
+                        <segue destination="AJE-th-Z4K" kind="show" identifier="showHideSegue" id="kpA-ih-aau"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="quX-0q-nMy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -241,6 +242,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZJE-ES-Nsv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="664.79999999999995" y="1665.5172413793105"/>
+        </scene>
+        <!--Show Hide Table View Controller-->
+        <scene sceneID="2WE-hC-Moa">
+            <objects>
+                <tableViewController id="AJE-th-Z4K" customClass="ShowHideTableViewController" customModule="FormBuilderDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Yzg-WT-bjL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="EgP-26-T0C">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EgP-26-T0C" id="qhA-sB-XAm">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="AJE-th-Z4K" id="E0W-fs-5WT"/>
+                            <outlet property="delegate" destination="AJE-th-Z4K" id="mSr-NW-UkP"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="35T-Cf-3Jl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="682" y="2358"/>
         </scene>
     </scenes>
     <resources>

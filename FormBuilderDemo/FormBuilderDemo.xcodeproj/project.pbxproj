@@ -17,6 +17,7 @@
 		49230FFD20F8392B001EE3B0 /* FormBuilder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49230FFC20F8392B001EE3B0 /* FormBuilder.framework */; };
 		4923100D20F855A5001EE3B0 /* TestFormStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923100C20F855A5001EE3B0 /* TestFormStackViewController.swift */; };
 		4923101120F86C51001EE3B0 /* TestFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923101020F86C51001EE3B0 /* TestFormTableViewController.swift */; };
+		492C12942137C404005F3A57 /* ShowHideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C12932137C404005F3A57 /* ShowHideTableViewController.swift */; };
 		4973012A20FDD6E4003F89C1 /* MyFormLayout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4973012920FDD6E4003F89C1 /* MyFormLayout.xib */; };
 		4984F9D8212654EE008E4BE0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4984F9D5212654EE008E4BE0 /* README.md */; };
 		4984F9D9212654EE008E4BE0 /* FormBuilder.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4984F9D6212654EE008E4BE0 /* FormBuilder.podspec */; };
@@ -36,6 +37,7 @@
 		49230FFC20F8392B001EE3B0 /* FormBuilder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FormBuilder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4923100C20F855A5001EE3B0 /* TestFormStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFormStackViewController.swift; sourceTree = "<group>"; };
 		4923101020F86C51001EE3B0 /* TestFormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFormTableViewController.swift; sourceTree = "<group>"; };
+		492C12932137C404005F3A57 /* ShowHideTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHideTableViewController.swift; sourceTree = "<group>"; };
 		4973012920FDD6E4003F89C1 /* MyFormLayout.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyFormLayout.xib; sourceTree = "<group>"; };
 		4984F9D5212654EE008E4BE0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		4984F9D6212654EE008E4BE0 /* FormBuilder.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FormBuilder.podspec; path = ../FormBuilder.podspec; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				4973012920FDD6E4003F89C1 /* MyFormLayout.xib */,
 				4908E2A221240D130020A265 /* LoginViewController.swift */,
 				4908E2A621241EB80020A265 /* StackViewBorderView.swift */,
+				492C12932137C404005F3A57 /* ShowHideTableViewController.swift */,
 			);
 			path = FormBuilderDemo;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				4908E2A721241EB80020A265 /* StackViewBorderView.swift in Sources */,
 				4908E2A321240D130020A265 /* LoginViewController.swift in Sources */,
 				4923100D20F855A5001EE3B0 /* TestFormStackViewController.swift in Sources */,
+				492C12942137C404005F3A57 /* ShowHideTableViewController.swift in Sources */,
 				49230FEA20F83910001EE3B0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

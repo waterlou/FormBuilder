@@ -78,7 +78,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
 
     // FormRowViewProtocol
     // row key
-    open var key: String?
+    open var key: String = ""
     
     open var isSectionHeader: Bool {
         if case .sectionHeader = type { return true }
@@ -104,7 +104,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 if hideErrorLabelWithNoError {
                     errorLabel.isHidden = false
                 }
-                errorLabel.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key!) }).joined(separator: "\n")
+                errorLabel.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key) }).joined(separator: "\n")
             }
             else {
                 if hideErrorLabelWithNoError {
@@ -225,7 +225,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     
     // setup control before show up
     open func setup(form: BaseForm, type setupType: FormRowSetupType) {
-        guard let key = key else { fatalError("key not set") }
+        assert(key.count>0, "key not set")
         // you can setup label, icon
         let title: String?
         let iconImage: UIImage?
@@ -300,7 +300,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 }
                 index += 1
             }
-            form.modelToControl(keys: [self.key!])  // update selection after reset titles
+            form.modelToControl(keys: [self.key])  // update selection after reset titles
             segmentedControl.addTarget(form, action: #selector(BaseForm.controlValueChanged(sender:)), for: .valueChanged)
         }
         if let textView = textView {

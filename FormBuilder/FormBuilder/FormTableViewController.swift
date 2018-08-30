@@ -30,6 +30,10 @@ open class FormTableViewController: UITableViewController {
                 self.tableView.beginUpdates()
                 self.tableView.endUpdates()
             }
+            // show hide table with hidden status change
+            form._subscribe(key: nil, event: .hiddenStatusChanged) { [unowned self] form, rowView, event in
+                self.tableView.reloadData()
+            }
         }
     }
 
@@ -43,7 +47,7 @@ open class FormTableViewController: UITableViewController {
 
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let rowView = form.rowView(row: indexPath.row, section: indexPath.section) else { fatalError("cannot get rowView") }
-        guard let key = rowView.key else { fatalError("key not set") }
+        let key = rowView.key
         let cell = rowView.cell ?? rowView.cell(withIdentifier: key)
         //let cell = tableView.dequeueReusableCell(withIdentifier: key) as? FormRowTableViewCell ?? rowView.cell(withIdentifier: key)
         rowView.setup(form: form, type: .table)  // setup control

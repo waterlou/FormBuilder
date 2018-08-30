@@ -49,7 +49,7 @@ public class Form<M: FormDataMappable>: BaseForm {
     
     // signal a event
     public override func signal(rowView: FormRowViewProtocol, event: Event) {
-        guard let key = rowView.key else { fatalError("key not set") }
+        let key = rowView.key
         super.signal(rowView: rowView, event: event)
         for subscription in self.subscriptions {
             if (subscription.key == nil || subscription.key! == key) && event == subscription.event {
@@ -87,7 +87,7 @@ public class Form<M: FormDataMappable>: BaseForm {
     }
 
     override public func showOptions(rowView: FormRowViewProtocol, optionKeys: [String]) {
-        guard let key = rowView.key else { fatalError("key not set") }
+        let key = rowView.key
         let title = self.label(for: key)
         let optionsViewController = FormOptionsTableViewController(headerTitle: title, data: self.data, key: key, optionKeys: optionKeys, labels: self.labels, icons: self.icons)
         // chain valueChanged event to parent viewController

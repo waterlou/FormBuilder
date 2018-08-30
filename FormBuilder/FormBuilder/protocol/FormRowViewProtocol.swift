@@ -16,17 +16,18 @@ public enum FormRowSetupType {
 public protocol FormRowViewProtocolBase: class {
     
     // key of the rowView
-    var key: String? { get }
+    var key: String { get }
 
     // if this row view is a section header
     var isSectionHeader: Bool { get }
     
     // display error
     var errors: [FormValidationErrorProtocol]? { get }
-    func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?);
+    func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?)
     
     // is it selectable, for tableView
     var isSelectable: Bool { get }
+    var isHidden: Bool { get set }  // confirm to UIView
     
     // setup rowView
     func setup(form: BaseForm, type: FormRowSetupType)

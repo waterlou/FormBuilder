@@ -22,6 +22,7 @@
 		4923100520F83C45001EE3B0 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923100420F83C45001EE3B0 /* FormTableViewController.swift */; };
 		4923100720F83C5A001EE3B0 /* FormStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923100620F83C5A001EE3B0 /* FormStackView.swift */; };
 		4923101320F88C2C001EE3B0 /* FormValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923101220F88C2C001EE3B0 /* FormValidator.swift */; };
+		492C129221379B68005F3A57 /* SectionTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C129121379B68005F3A57 /* SectionTree.swift */; };
 		497300E620FD8373003F89C1 /* UIView+Subview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497300E520FD8373003F89C1 /* UIView+Subview.swift */; };
 		4973012620FDA62A003F89C1 /* BaseForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973012520FDA62A003F89C1 /* BaseForm.swift */; };
 		4973012820FDC482003F89C1 /* FormBuilderBasic.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4973012720FDC482003F89C1 /* FormBuilderBasic.xib */; };
@@ -51,6 +52,7 @@
 		4923100420F83C45001EE3B0 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 		4923100620F83C5A001EE3B0 /* FormStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStackView.swift; sourceTree = "<group>"; };
 		4923101220F88C2C001EE3B0 /* FormValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidator.swift; sourceTree = "<group>"; };
+		492C129121379B68005F3A57 /* SectionTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTree.swift; sourceTree = "<group>"; };
 		497300E520FD8373003F89C1 /* UIView+Subview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Subview.swift"; sourceTree = "<group>"; };
 		4973012520FDA62A003F89C1 /* BaseForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseForm.swift; sourceTree = "<group>"; };
 		4973012720FDC482003F89C1 /* FormBuilderBasic.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormBuilderBasic.xib; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				49230FD520F838E9001EE3B0 /* FormBuilder.h */,
 				49230FD620F838EA001EE3B0 /* Info.plist */,
 				4908E297212266E90020A265 /* FormSubscription.swift */,
+				492C129121379B68005F3A57 /* SectionTree.swift */,
 				4973012520FDA62A003F89C1 /* BaseForm.swift */,
 				49230FFE20F83953001EE3B0 /* Form.swift */,
 				4908E29C21228F150020A265 /* FormRowViewOptions.swift */,
@@ -261,6 +264,7 @@
 			files = (
 				4908E2AC21246FAC0020A265 /* FormOptionsTableViewController.swift in Sources */,
 				497300E620FD8373003F89C1 /* UIView+Subview.swift in Sources */,
+				492C129221379B68005F3A57 /* SectionTree.swift in Sources */,
 				4973012C20FDD7AA003F89C1 /* FormRowViewProtocol.swift in Sources */,
 				49B75B4D20FC8C64004A2A43 /* NavigationAccessoryView.swift in Sources */,
 				4923101320F88C2C001EE3B0 /* FormValidator.swift in Sources */,

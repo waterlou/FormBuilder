@@ -19,4 +19,6 @@ public enum Event {
     case buttonClicked
     
     case validationStatusChanged    // status changed
+    
+    case hiddenStatusChanged
 }

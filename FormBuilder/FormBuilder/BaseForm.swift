@@ -36,54 +36,12 @@ public func +=(form: BaseForm, rowViewDatas: [(String, FormRowView.BasicType)]) 
 
 open class BaseForm: NSObject {
     
-    // build the free for the form structure, that will be easier for show / hide cells
-    struct SectionTree {
-        struct Section {
-            var key: String
-            var rowsKey: [String] = []
-        }
-        public private(set) var dummySectionCreated = false
-        var sections: [Section] = []
-        
-        mutating func clear() { sections = [] }
-        mutating func appendRow(key: String, isSectionHeader: Bool) {
-            if isSectionHeader {
-                assert(dummySectionCreated==false, "You can have sectionHeader at the begin of array for sectioned form.")
-                sections.append(Section(key: key, rowsKey: []))
-            }
-            else {
-                if sections.count == 0 {
-                    // no section create a empty one
-                    dummySectionCreated = true
-                    sections.append(Section(key: "__dummySection__", rowsKey: []))
-                }
-                let lastIndex = sections.count - 1
-                var section = sections[lastIndex]
-                section.rowsKey.append(key)
-                sections[lastIndex] = section
-            }
-        }
-        
-        func indexFor(section: Int) -> Int? {
-            if dummySectionCreated {
-                return nil
-            }
-            var index = 0
-            for s in 0..<section {
-                index += sections[s].rowsKey.count + 1
-            }
-            return index
-        }
-
-        func indexFor(row: Int, section: Int) -> Int {
-            if let index = self.indexFor(section: section) {
-                return 1 + row + index
-            }
-            return row // no section
-        }
-    }
     private var sectionTree = SectionTree()
+    private var visibleSectionTree: SectionTree?
     private var sectionTreeNeedRefresh = true
+    public func setNeedRefresh() {
+        sectionTreeNeedRefresh = true
+    }
     
     public weak var viewController: UIViewController?
     
@@ -126,7 +84,7 @@ open class BaseForm: NSObject {
 
     // signal a event
     public func signal(rowView: FormRowViewProtocol, event: Event) {
-        guard let key = rowView.key else { fatalError("key not set") }
+        let key = rowView.key
         for subscription in self.baseSubscriptions {
             if (subscription.key == nil || subscription.key! == key) && event == subscription.event {
                 subscription.closure(self, rowView, event)
@@ -150,7 +108,8 @@ open class BaseForm: NSObject {
     
     public func subscribeForValidator(validator: FormValidator = FormValidator(), validates: [String: [FormValidator.ValidateType]]) {
         self._subscribe(key: nil, events: [.valueChanging, .valueChanged, .resignFirstResponder]) { [unowned self] form, rowView, _ in
-            guard let key = rowView.key, let validates = validates[key] else { return }
+            let key = rowView.key
+            guard let validates = validates[key] else { return }
             let value = self.valueFromControl(for: key)
             let newErrors = validator.validate(value, for: key, types: validates)
             if !self.compareErrors(newErrors, rowView.errors) {
@@ -252,7 +211,7 @@ open class BaseForm: NSObject {
             if let rowView = rowView as? FormRowView {
                 switch rowView.type {
                 case .optionValue(let optionKey):
-                    _ = form.assignOptionValue(optionKey: optionKey, for: rowView.key!)
+                    _ = form.assignOptionValue(optionKey: optionKey, for: rowView.key)
                     form.signal(rowView: rowView, event: .valueChanged)
                 case .option(let optionKeys):
                     form.showOptions(rowView: rowView, optionKeys: optionKeys)
@@ -336,7 +295,7 @@ extension BaseForm {
     func updateSectionTree() {
         self.sectionTree.clear()
         for rowView in rowViews {
-            self.sectionTree.appendRow(key: rowView.key!, isSectionHeader: rowView.isSectionHeader)
+            self.sectionTree.appendRow(key: rowView.key, isSectionHeader: rowView.isSectionHeader)
         }
         sectionTreeNeedRefresh = false
     }
@@ -348,18 +307,18 @@ extension BaseForm {
     
     var numberOfSections: Int {
         updateSectionTreeIfNeeded()
-        return sectionTree.sections.count
+        return sectionTree.numberOfSections
     }
     
     func numberOfRows(section: Int) -> Int {
         updateSectionTreeIfNeeded()
-        return sectionTree.sections[section].rowsKey.count
+        return sectionTree.section(at: section).numberOfRows
     }
     
     func header(forSection section: Int) -> String? {
         updateSectionTreeIfNeeded()
-        if let index = sectionTree.indexFor(section: section), let key = rowViews[index].key {
-            return self.label(for: key)
+        if let index = sectionTree.indexFor(section: section) {
+            return self.label(for: rowViews[index].key)
         }
         return nil
     }
@@ -368,28 +327,44 @@ extension BaseForm {
         updateSectionTreeIfNeeded()
         return rowViews[sectionTree.indexFor(row: row, section: section)]
     }
+    
+    open func setHidden(key: String, hidden: Bool) -> Bool {
+        // show/hide view
+        let affectRowView = rowViews.filter { $0.key == key }
+        // show/hide in tree
+        let changed = sectionTree.setHidden(key: key, hidden: hidden)
+        if changed {
+            //self.sectionTreeNeedRefresh = true
+            affectRowView.forEach {
+                $0.isHidden = hidden
+                self.signal(rowView: $0, event: .hiddenStatusChanged)
+            }
+        }
+        return changed
+    }
+
 }
 
 extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
     // control's delegate
     
     public func textViewDidEndEditing(_ textView: UITextView) {
-        if let rowView = textView.parentFormRowView, let key = rowView.key {
-            self.controlToModel(keys: [key])
+        if let rowView = textView.parentFormRowView{
+            self.controlToModel(keys: [rowView.key])
             self.signal(rowView: rowView, event: .valueChanged)
         }
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-        if let rowView = textView.parentFormRowView, let key = rowView.key {
-            self.controlToModel(keys: [key])
+        if let rowView = textView.parentFormRowView {
+            self.controlToModel(keys: [rowView.key])
             self.signal(rowView: rowView, event: .valueChanging)
         }
     }
     
     @objc public func textEditingChanged(sender: UIControl) {
-        if let rowView = sender.parentFormRowView, let key = rowView.key {
-            self.controlToModel(keys: [key])
+        if let rowView = sender.parentFormRowView {
+            self.controlToModel(keys: [rowView.key])
             self.signal(rowView: rowView, event: .valueChanging)
         }
     }
@@ -407,8 +382,8 @@ extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
     }
 
     @objc public func controlValueChanged(sender: UIControl) {
-        if let rowView = sender.parentFormRowView, let key = rowView.key {
-            self.controlToModel(keys: [key])
+        if let rowView = sender.parentFormRowView {
+            self.controlToModel(keys: [rowView.key])
             self.signal(rowView: rowView, event: .valueChanged)
         }
     }
