@@ -20,6 +20,7 @@ public struct FormRowViewOptions {
     public let titleFont: UIFont?
     public let minimumHeight: CGFloat?
     public let minimumLabelWidth: CGFloat?
+    public let minimumErrorMessageHeight: CGFloat?  // set this to avoid auto resize
     public let editTextFont: UIFont?
     public let textBorderStyle: UITextBorderStyle?
     public let textAlignment: NSTextAlignment?
@@ -30,6 +31,7 @@ public struct FormRowViewOptions {
         titleFont: UIFont? = nil,
         minimumHeight: CGFloat? = nil,
         minimumLabelWidth: CGFloat? = nil,
+        minimumErrorMessageHeight: CGFloat? = nil,
         editTextFont: UIFont? = nil,
         textBorderStyle: UITextBorderStyle? = nil,
         textAlignment: NSTextAlignment? = nil) {
@@ -38,6 +40,7 @@ public struct FormRowViewOptions {
         self.titleFont = titleFont
         self.minimumHeight = minimumHeight
         self.minimumLabelWidth = minimumLabelWidth
+        self.minimumErrorMessageHeight = minimumErrorMessageHeight
         self.editTextFont = editTextFont
         self.textBorderStyle = textBorderStyle
         self.textAlignment = textAlignment

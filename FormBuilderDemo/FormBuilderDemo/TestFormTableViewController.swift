@@ -61,6 +61,7 @@ class TestFormTableViewController: FormTableViewController {
             titleFont: UIFont.systemFont(ofSize: 13),
             minimumHeight: 44.0,
             minimumLabelWidth: 66.0,
+            minimumErrorMessageHeight: 22.0,
             editTextFont: UIFont.systemFont(ofSize: 17),
             textBorderStyle: UITextBorderStyle.none,
             textAlignment: .left

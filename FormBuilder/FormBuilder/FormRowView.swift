@@ -94,15 +94,23 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }
     
+    var hideErrorLabelWithNoError = true
     public var errors: [FormValidationErrorProtocol]?
     open func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?) {
         self.errors = errors
-        if let errors = errors {
-            self.errorLabel?.isHidden = false
-            self.errorLabel?.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key!) }).joined(separator: "\n")
-        }
-        else {
-            self.errorLabel?.isHidden = true
+        if let errorLabel = self.errorLabel {
+            if let errors = errors {
+                if hideErrorLabelWithNoError {
+                    errorLabel.isHidden = false
+                }
+                errorLabel.text = (errors.map { $0.errorDescriptionString(form: form, key: self.key!) }).joined(separator: "\n")
+            }
+            else {
+                if hideErrorLabelWithNoError {
+                    errorLabel.isHidden = true
+                }
+                errorLabel.text = nil
+            }
         }
     }
     
@@ -162,6 +170,13 @@ open class FormRowView : UIView, FormRowViewProtocol {
             // set minimum label width, can align control
             let minimumWidthConstraint = NSLayoutConstraint(item: titleLabel, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 0.0, constant: minimumLabelWidth)
             titleLabel.addConstraint(minimumWidthConstraint)
+        }
+        if let errorLabel = view.errorLabel, let minimumErrorMessageHeight = options?.minimumErrorMessageHeight {
+            let minimumHeightConstraint = NSLayoutConstraint(item: errorLabel, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 0.0, constant: minimumErrorMessageHeight)
+            errorLabel.addConstraint(minimumHeightConstraint)
+            errorLabel.isHidden = false // if having minimum height, always show the error label
+            errorLabel.text = nil
+            view.hideErrorLabelWithNoError = false
         }
         return view
     }
