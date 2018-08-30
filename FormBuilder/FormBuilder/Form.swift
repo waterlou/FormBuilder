@@ -92,6 +92,7 @@ public class Form<M: FormDataMappable>: BaseForm {
         let optionsViewController = FormOptionsTableViewController(headerTitle: title, data: self.data, key: key, optionKeys: optionKeys, labels: self.labels, icons: self.icons)
         // chain valueChanged event to parent viewController
         optionsViewController.form._subscribe(key: nil, event: .valueChanged) { _,_,_ in
+            self.modelToControl(keys: [key])
             self.signal(rowView: rowView, event: .valueChanged)
         }
         self.viewController?.showDirectionPopup(viewController: optionsViewController, sender: self.viewController!.view)

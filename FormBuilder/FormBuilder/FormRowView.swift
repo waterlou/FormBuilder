@@ -345,6 +345,9 @@ open class FormRowView : UIView, FormRowViewProtocol {
                     cell.accessoryType = strings.contains(optionKey) ? .checkmark : .none
                 }
             }
+        case .option:
+            print(value)
+            self.descriptionLabel?.text = value as? String
         default:
             break
         }

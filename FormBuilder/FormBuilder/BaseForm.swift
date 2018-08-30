@@ -328,7 +328,7 @@ extension BaseForm {
         return rowViews[sectionTree.indexFor(row: row, section: section)]
     }
     
-    open func setHidden(key: String, hidden: Bool) -> Bool {
+    @discardableResult open func setHidden(key: String, hidden: Bool) -> Bool {
         // show/hide view
         let affectRowView = rowViews.filter { $0.key == key }
         // show/hide in tree
