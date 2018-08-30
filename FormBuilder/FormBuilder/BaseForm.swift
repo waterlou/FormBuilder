@@ -36,17 +36,61 @@ public func +=(form: BaseForm, rowViewDatas: [(String, FormRowView.BasicType)]) 
 
 open class BaseForm: NSObject {
     
+    // build the free for the form structure, that will be easier for show / hide cells
+    struct SectionTree {
+        struct Section {
+            var key: String
+            var rowsKey: [String] = []
+        }
+        public private(set) var dummySectionCreated = false
+        var sections: [Section] = []
+        
+        mutating func clear() { sections = [] }
+        mutating func appendRow(key: String, isSectionHeader: Bool) {
+            if isSectionHeader {
+                assert(dummySectionCreated==false, "You can have sectionHeader at the begin of array for sectioned form.")
+                sections.append(Section(key: key, rowsKey: []))
+            }
+            else {
+                if sections.count == 0 {
+                    // no section create a empty one
+                    dummySectionCreated = true
+                    sections.append(Section(key: "__dummySection__", rowsKey: []))
+                }
+                let lastIndex = sections.count - 1
+                var section = sections[lastIndex]
+                section.rowsKey.append(key)
+                sections[lastIndex] = section
+            }
+        }
+        
+        func indexFor(section: Int) -> Int? {
+            if dummySectionCreated {
+                return nil
+            }
+            var index = 0
+            for s in 0..<section {
+                index += sections[s].rowsKey.count + 1
+            }
+            return index
+        }
+
+        func indexFor(row: Int, section: Int) -> Int {
+            if let index = self.indexFor(section: section) {
+                return 1 + row + index
+            }
+            return row // no section
+        }
+    }
+    private var sectionTree = SectionTree()
+    private var sectionTreeNeedRefresh = true
+    
     public weak var viewController: UIViewController?
     
     // Form is comoposed of:
     public private(set) var rowViews: [FormRowViewProtocol] = []     // views
     public var labels: [String: String]?        // key -> label string
     public var icons: [String: UIImage]?        // key -> icons
-    
-    // table section handling
-    private var containsSection = false
-    
-    var sectionsCount: [Int] = []   // count number of items in section, excluding the section header itself
     
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
     public private(set) var keyboardResizeConstraint: NSLayoutConstraint?
@@ -138,19 +182,11 @@ open class BaseForm: NSObject {
     // append row
     open func appendRow(rowView: FormRowViewProtocol) {
         self.rowViews.append(rowView)
-        if !self.containsSection && rowView.isSectionHeader {
-            self.containsSection = true
-        }
     }
     
     // append muliple row
     open func appendRows(rowViews: [FormRowViewProtocol]) {
         self.rowViews.append(contentsOf: rowViews)
-        if !self.containsSection && rowViews.reduce(false, { c, rowView in
-            return c || rowView.isSectionHeader
-        }) {
-            self.containsSection = true
-        }
     }
     
     // key -> label
@@ -291,77 +327,46 @@ extension BaseForm {
 extension BaseForm {
     // table view section support
     
-    func updateSectionCountIfNeeded() {
-        if sectionsCount.count == 0 {
-            updateSectionCounts()
+    func updateSectionTreeIfNeeded() {
+        if sectionTreeNeedRefresh {
+            updateSectionTree()
         }
     }
     
-    func updateSectionCounts() {
-        assert(rowViews[0].isSectionHeader == true) // first item must be section header for form with section
-        var itemCount = 0
-        sectionsCount = []
-        var firstOne = true
+    func updateSectionTree() {
+        self.sectionTree.clear()
         for rowView in rowViews {
-            if firstOne {
-                firstOne = false
-                continue
-            }
-            if rowView.isSectionHeader {
-                sectionsCount.append(itemCount)
-                itemCount = 0
-            }
-            else {
-                itemCount += 1
-            }
+            self.sectionTree.appendRow(key: rowView.key!, isSectionHeader: rowView.isSectionHeader)
         }
-        sectionsCount.append(itemCount)
+        sectionTreeNeedRefresh = false
     }
     
-    internal func indexForSection(section: Int) -> Int {
-        var index = 0
-        var currentSection = 0
-        while currentSection < section {
-            index += 1 + sectionsCount[currentSection]
-            currentSection += 1
-        }
-        return index
+    internal func indexFor(section: Int) -> Int {
+        updateSectionTreeIfNeeded()
+        return sectionTree.indexFor(section: section) ?? 0
     }
     
     var numberOfSections: Int {
-        if containsSection {
-            updateSectionCountIfNeeded()
-            return sectionsCount.count
-        }
-        return 1
+        updateSectionTreeIfNeeded()
+        return sectionTree.sections.count
     }
     
     func numberOfRows(section: Int) -> Int {
-        if containsSection {
-            updateSectionCountIfNeeded()
-            return sectionsCount[section]
-        }
-        return rowViews.count
+        updateSectionTreeIfNeeded()
+        return sectionTree.sections[section].rowsKey.count
     }
     
     func header(forSection section: Int) -> String? {
-        if containsSection {
-            updateSectionCountIfNeeded()
-            let index = indexForSection(section: section)
-            if let key = rowViews[index].key {
-                return self.label(for: key)
-            }
+        updateSectionTreeIfNeeded()
+        if let index = sectionTree.indexFor(section: section), let key = rowViews[index].key {
+            return self.label(for: key)
         }
         return nil
     }
     
     func rowView(row: Int, section: Int) -> FormRowViewProtocol? {
-        if containsSection {
-            updateSectionCountIfNeeded()
-            let index = indexForSection(section: section)
-            return rowViews[1 + row + index]
-        }
-        return rowViews[row]
+        updateSectionTreeIfNeeded()
+        return rowViews[sectionTree.indexFor(row: row, section: section)]
     }
 }
 

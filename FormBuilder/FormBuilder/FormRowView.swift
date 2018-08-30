@@ -94,6 +94,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }
     
+    // if false, will not hide the error label if no error
     var hideErrorLabelWithNoError = true
     public var errors: [FormValidationErrorProtocol]?
     open func setErrors(form: BaseForm, errors: [FormValidationErrorProtocol]?) {
