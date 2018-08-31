@@ -352,27 +352,32 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 }
             }
         case .option:
-            switch value {
-            // single options
-            case let string as String:
-                if string.isEmpty {
-                    self.descriptionLabel?.text = self.auxiliaryLabel
+            if let value = value {
+                switch value {
+                // single options
+                case let string as String:
+                    if string.isEmpty {
+                        self.descriptionLabel?.text = self.auxiliaryLabel
+                    }
+                    else {
+                        self.descriptionLabel?.text = string
+                    }
+                // mulitple options
+                case let strings as [String]:
+                    if strings.count == 0 {
+                        self.descriptionLabel?.text = self.auxiliaryLabel
+                    }
+                    else {
+                        self.descriptionLabel?.text = strings.joined(separator: ", ")
+                    }
+                default:
+                    fatalError("unknown value type for options")
                 }
-                else {
-                    self.descriptionLabel?.text = string
-                }
-            // mulitple options
-            case let strings as [String]:
-                if strings.count == 0 {
-                    self.descriptionLabel?.text = self.auxiliaryLabel
-                }
-                else {
-                    self.descriptionLabel?.text = strings.joined(separator: ", ")
-                }
-            default:
-                fatalError("unknown value type for options")
             }
-        default:
+            else {
+                self.descriptionLabel?.text = nil
+            }
+        case .sectionHeader, .simpleText, .button:
             break
         }
     }
