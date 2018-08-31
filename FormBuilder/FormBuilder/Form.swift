@@ -95,8 +95,13 @@ public class Form<M: FormDataMappable>: BaseForm {
             self.modelToControl(keys: [key])
             self.signal(rowView: rowView, event: .valueChanged)
         }
-        self.viewController?.showDirectionPopup(viewController: optionsViewController, sender: self.viewController!.view)
-        //self.viewController?.navigationController?.pushViewController(optionsViewController, animated: true)
+        if let navigationController = self.viewController?.navigationController {
+            // show option by push navigation controller
+            navigationController.pushViewController(optionsViewController, animated: true)
+        }
+        else {
+            self.viewController?.showDirectionPopup(viewController: optionsViewController, sender: self.viewController!.view)
+        }
     }
 
     /*
