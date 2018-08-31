@@ -21,7 +21,7 @@ class TestFormTableViewController: FormTableViewController {
         var note: String = ""
         var option1: String = ""
         var option2: [String] = []
-        var option3: String = ""
+        var option3: String?
 
         func mapping(map: FormDataMapping) {
             name        <- map["name"]
@@ -106,6 +106,7 @@ class TestFormTableViewController: FormTableViewController {
             "female": "Female",
             "segment1": "Gender",
             "button1": "Click Me",
+            "okey2": "SSSS",
         ]
         
         form.auxiliaryLabels = [

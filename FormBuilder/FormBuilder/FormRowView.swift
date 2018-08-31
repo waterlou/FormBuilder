@@ -118,6 +118,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     public private(set) var type: BasicType = .simpleText
     open var formTransform: FormTransformProtocol? = nil
     var auxiliaryLabel: String?
+    var optionKeyLabels: [String: String]?  // store options label used in set values
     
     // default components in view that base class will handle it
     @IBOutlet open var iconImageView: UIImageView?
@@ -314,6 +315,12 @@ open class FormRowView : UIView, FormRowViewProtocol {
             textView.inputAccessoryView = form.inputAccessoryView
         }
         
+        if case .option(let keys) = type {
+            self.optionKeyLabels = keys.reduce(into: [String:String](), {
+                $0[$1] = form.label(for: $1)
+            } )
+        }
+        
         if setupType == .stackView && self.isSelectable {
             print("add tap gesture")
             let tapGesture = UIButtonGestureRecognizer(target: self, action: #selector(handleStackViewTapGesture(_:)))
@@ -352,39 +359,30 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 }
             }
         case .option:
-            if let value = value, let label = self.descriptionLabel {
-                if case .some(let unwrappedValue) = value as Optional<Any> {
-                    setOptionAuxiliaryText(label: label, value: unwrappedValue)
+            if let label = self.descriptionLabel {
+                if let string = value as? String {
+                    if string.isEmpty {
+                        label.text = self.auxiliaryLabel
+                    }
+                    else {
+                        label.text = optionKeyLabels?[string] ?? string
+                    }
+                }
+                else if let strings = value as? [String] {
+                    if strings.count == 0 {
+                        label.text = self.auxiliaryLabel
+                    }
+                    else {
+                        let mappedLabels = strings.map { optionKeyLabels?[$0] ?? $0 }
+                        label.text = mappedLabels.joined(separator: ", ")
+                    }
                 }
                 else {
-                    setOptionAuxiliaryText(label: label, value: value)
+                    label.text = self.auxiliaryLabel
                 }
             }
         case .sectionHeader, .simpleText, .button:
             break
-        }
-    }
-    
-    private func setOptionAuxiliaryText(label: UILabel, value: Any) {
-        switch value {
-        // single options
-        case let string as String:
-            if string.isEmpty {
-                label.text = self.auxiliaryLabel
-            }
-            else {
-                label.text = string
-            }
-        // mulitple options
-        case let strings as [String]:
-            if strings.count == 0 {
-                label.text = self.auxiliaryLabel
-            }
-            else {
-                label.text = strings.joined(separator: ", ")
-            }
-        default:
-            fatalError("unknown value type for options")
         }
     }
     
