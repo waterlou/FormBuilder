@@ -117,7 +117,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     
     public private(set) var type: BasicType = .simpleText
     open var formTransform: FormTransformProtocol? = nil
-    
+    var auxiliaryLabel: String?
     
     // default components in view that base class will handle it
     @IBOutlet open var iconImageView: UIImageView?
@@ -226,6 +226,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
     // setup control before show up
     open func setup(form: BaseForm, type setupType: FormRowSetupType) {
         assert(key.count>0, "key not set")
+        
         // you can setup label, icon
         let title: String?
         let iconImage: UIImage?
@@ -237,6 +238,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
             title = form.label(for: key)
             iconImage = form.icon(for: key)
         }
+        // store that may need it when set value
+        self.auxiliaryLabel = form.auxiliaryLabel(for: key)
         
         // set title and icon
         titleLabel?.text = title
@@ -274,8 +277,11 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 editTextField.keyboardType = .emailAddress
             }
             
+            if let auxiliaryLabel = auxiliaryLabel {
+                editTextField.placeholder = auxiliaryLabel
+            }
+            
             editTextField.addTarget(form, action: #selector(BaseForm.textEditingChanged(sender:)), for: .editingChanged)
-            editTextField.addTarget(form, action: #selector(BaseForm.controlValueChanged(sender:)), for: .valueChanged)
             editTextField.addTarget(form, action: #selector(BaseForm.textEditingDidBegin(sender:)), for: .editingDidBegin)
             editTextField.addTarget(form, action: #selector(BaseForm.textEditingDidEnd(sender:)), for: .editingDidEnd)
             editTextField.inputAccessoryView = form.inputAccessoryView  // switching field
@@ -346,8 +352,26 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 }
             }
         case .option:
-            print(value)
-            self.descriptionLabel?.text = value as? String
+            switch value {
+            // single options
+            case let string as String:
+                if string.isEmpty {
+                    self.descriptionLabel?.text = self.auxiliaryLabel
+                }
+                else {
+                    self.descriptionLabel?.text = string
+                }
+            // mulitple options
+            case let strings as [String]:
+                if strings.count == 0 {
+                    self.descriptionLabel?.text = self.auxiliaryLabel
+                }
+                else {
+                    self.descriptionLabel?.text = strings.joined(separator: ", ")
+                }
+            default:
+                fatalError("unknown value type for options")
+            }
         default:
             break
         }

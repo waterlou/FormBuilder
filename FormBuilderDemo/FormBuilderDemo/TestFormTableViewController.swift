@@ -108,6 +108,10 @@ class TestFormTableViewController: FormTableViewController {
             "button1": "Click Me",
         ]
         
+        form.auxiliaryLabels = [
+            "option3": "Please Select..."
+        ]
+        
         let customValidation = FormValidator.ValidateType.custom( closure: { value, key in
             if let value = value as? String {
                 if value.count % 2 == 0 {

@@ -48,6 +48,7 @@ open class BaseForm: NSObject {
     // Form is comoposed of:
     public private(set) var rowViews: [FormRowViewProtocol] = []     // views
     public var labels: [String: String]?        // key -> label string
+    public var auxiliaryLabels: [String: String]?     // key -> aux label string
     public var icons: [String: UIImage]?        // key -> icons
     
     // easy method for resize windows with windows popup and we can scroll, used with stackview + scrollview
@@ -151,6 +152,11 @@ open class BaseForm: NSObject {
     // key -> label
     open func label(for key: String) -> String {
         return labels?[key] ?? key
+    }
+    
+    // key -> auxLabel, e.g. placeholder, selection
+    open func auxiliaryLabel(for key: String) -> String? {
+        return auxiliaryLabels?[key]
     }
     
     // key -> icon
@@ -378,6 +384,7 @@ extension BaseForm: UITextFieldDelegate, UITextViewDelegate {
     @objc public func textEditingDidEnd(sender: UIControl) {
         if let rowView = sender.parentFormRowView {
             self.signal(rowView: rowView, event: .resignFirstResponder)
+            self.signal(rowView: rowView, event: .valueChanged)
         }
     }
 
