@@ -352,33 +352,39 @@ open class FormRowView : UIView, FormRowViewProtocol {
                 }
             }
         case .option:
-            if let value = value {
-                switch value {
-                // single options
-                case let string as String:
-                    if string.isEmpty {
-                        self.descriptionLabel?.text = self.auxiliaryLabel
-                    }
-                    else {
-                        self.descriptionLabel?.text = string
-                    }
-                // mulitple options
-                case let strings as [String]:
-                    if strings.count == 0 {
-                        self.descriptionLabel?.text = self.auxiliaryLabel
-                    }
-                    else {
-                        self.descriptionLabel?.text = strings.joined(separator: ", ")
-                    }
-                default:
-                    fatalError("unknown value type for options")
+            if let value = value, let label = self.descriptionLabel {
+                if case .some(let unwrappedValue) = value as Optional<Any> {
+                    setOptionAuxiliaryText(label: label, value: unwrappedValue)
                 }
-            }
-            else {
-                self.descriptionLabel?.text = nil
+                else {
+                    setOptionAuxiliaryText(label: label, value: value)
+                }
             }
         case .sectionHeader, .simpleText, .button:
             break
+        }
+    }
+    
+    private func setOptionAuxiliaryText(label: UILabel, value: Any) {
+        switch value {
+        // single options
+        case let string as String:
+            if string.isEmpty {
+                label.text = self.auxiliaryLabel
+            }
+            else {
+                label.text = string
+            }
+        // mulitple options
+        case let strings as [String]:
+            if strings.count == 0 {
+                label.text = self.auxiliaryLabel
+            }
+            else {
+                label.text = strings.joined(separator: ", ")
+            }
+        default:
+            fatalError("unknown value type for options")
         }
     }
     
@@ -418,6 +424,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         }
     }       // get value from control
 }
+
 
 extension FormRowView {
     
