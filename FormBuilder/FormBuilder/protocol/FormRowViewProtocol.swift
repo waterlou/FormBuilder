@@ -32,10 +32,12 @@ public protocol FormRowViewProtocolBase: class {
     // setup rowView
     func setup(form: BaseForm, type: FormRowSetupType)
     
+    /*
     // first responder
-    var isFirstResponder: Bool { get }
-    var canBecomeFirstResponder: Bool { get }
-    func becomeFirstResponder() -> Bool
+    var rowIsFirstResponder: Bool { get }
+    var rowCanBecomeFirstResponder: Bool { get }
+    func rowBecomeFirstResponder() -> Bool
+    */
     
     // functions for binding
     func update(value: Any?)    // update value to control

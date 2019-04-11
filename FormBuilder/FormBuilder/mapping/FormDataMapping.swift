@@ -96,7 +96,7 @@ public class FormDataMapping {
         switch value {
         case let options as [String]:
             var newOptions = options
-            if let index = options.index(of: optionValue) {
+            if let index = options.firstIndex(of: optionValue) {
                 newOptions.remove(at: index)
             }
             else {
@@ -121,7 +121,7 @@ public class FormDataMapping {
             var newOptions: [String]
             if let options = value as? [String] {
                 newOptions = options
-                if let index = options.index(of: optionValue) {
+                if let index = options.firstIndex(of: optionValue) {
                     newOptions.remove(at: index)
                 }
                 else {

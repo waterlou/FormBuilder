@@ -17,7 +17,7 @@ open class FormTableViewController: UITableViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
-        tableView.rowHeight = UITableViewAutomaticDimension // auto layout
+        tableView.rowHeight = UITableView.automaticDimension // auto layout
     }
     
     open override func viewWillAppear(_ animated: Bool) {

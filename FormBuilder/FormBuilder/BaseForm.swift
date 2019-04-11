@@ -251,7 +251,7 @@ extension BaseForm {
     // accessory view arrows and done
     @objc func prevFirstResponder() {
         print("prev first responder")
-        if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.index(where: { return $0.key == firstResponder.key }) {
+        if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.firstIndex(where: { return $0.key == firstResponder.key }) {
             index -= 1
             if index < 0 { index = self.rowViews.count-1 }
             while index >= 0 {
@@ -268,7 +268,7 @@ extension BaseForm {
     
     @objc func nextFirstResponder() {
         print("next first responder")
-        if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.index(where: { return $0.key == firstResponder.key }) {
+        if let firstResponder = self.viewController?.view.firstResponder as? FormRowViewProtocol, var index = self.rowViews.firstIndex(where: { return $0.key == firstResponder.key }) {
             index += 1
             if index >= self.rowViews.count { index = 0 }
             while index < self.rowViews.count {
@@ -403,11 +403,11 @@ extension BaseForm {
         guard let keyboardResizeConstraint = keyboardResizeConstraint else { return }
         guard let viewController = self.viewController else { return }
         let i = sender.userInfo!
-        let k = (i[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+        let k = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
         keyboardResizeConstraint.constant = k
         currentKeyboardHeight = k
         //keyboardResizeConstraint.constant = k - viewController.bottomLayoutGuide.length
-        let s: TimeInterval = (i[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let s: TimeInterval = (i[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         UIView.animate(withDuration: s) { viewController.view.layoutIfNeeded() }
         
         // ensure first responder not blocked
@@ -418,7 +418,7 @@ extension BaseForm {
         guard let keyboardResizeConstraint = keyboardResizeConstraint else { return }
         guard let viewController = self.viewController else { return }
         let info = sender.userInfo!
-        let s: TimeInterval = (info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let s: TimeInterval = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         keyboardResizeConstraint.constant = 0
         currentKeyboardHeight = 0
         UIView.animate(withDuration: s) { viewController.view.layoutIfNeeded() }
@@ -428,11 +428,11 @@ extension BaseForm {
         self.keyboardResizeConstraint = constraint
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
-                                               name: Notification.Name.UIKeyboardWillShow,
+                                               name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide),
-                                               name: Notification.Name.UIKeyboardWillHide,
+                                               name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
     

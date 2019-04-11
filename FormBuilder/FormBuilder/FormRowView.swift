@@ -332,7 +332,8 @@ open class FormRowView : UIView, FormRowViewProtocol {
     // value -> control
     open func update(value: Any?) {
         switch type {
-        case .editText(let editType):
+        //case .editText(let editType):
+        case .editText:
             self.editTextField?.text = value as? String
         case .uiSwitch:
             self.uiSwitch?.isOn = value as? Bool ?? false
@@ -341,7 +342,7 @@ open class FormRowView : UIView, FormRowViewProtocol {
         case .segmentedControl(let options):
             // set index by key
             if let key = value as? String {
-                if let index = options.index(of: key) {
+                if let index = options.firstIndex(of: key) {
                     self.segmentedControl?.selectedSegmentIndex = index
                 }
             }

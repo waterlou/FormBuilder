@@ -54,7 +54,7 @@ extension UIView {
             if #available(iOS 11.0, *) {
                 viewableRect = self.safeAreaLayoutGuide.layoutFrame
             }
-            viewableRect = UIEdgeInsetsInsetRect(viewableRect, inset)
+            viewableRect = viewableRect.inset(by: inset)
             let viewRect = firstResponder.convert(firstResponder.bounds, to: view)
             if !viewableRect.contains(viewRect) {   // blocked
                 // find if there is any outer scrollview

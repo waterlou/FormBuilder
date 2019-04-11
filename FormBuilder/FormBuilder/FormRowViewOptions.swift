@@ -22,7 +22,7 @@ public struct FormRowViewOptions {
     public let minimumLabelWidth: CGFloat?
     public let minimumErrorMessageHeight: CGFloat?  // set this to avoid auto resize
     public let editTextFont: UIFont?
-    public let textBorderStyle: UITextBorderStyle?
+    public let textBorderStyle: UITextField.BorderStyle?
     public let textAlignment: NSTextAlignment?
     
     public init(
@@ -33,7 +33,7 @@ public struct FormRowViewOptions {
         minimumLabelWidth: CGFloat? = nil,
         minimumErrorMessageHeight: CGFloat? = nil,
         editTextFont: UIFont? = nil,
-        textBorderStyle: UITextBorderStyle? = nil,
+        textBorderStyle: UITextField.BorderStyle? = nil,
         textAlignment: NSTextAlignment? = nil) {
         self.nibName = nibName
         self.bundle = bundle
